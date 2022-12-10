@@ -34,5 +34,6 @@ int MFS_Unlink(int pinum, char *name) {
 
 int MFS_Shutdown() {
     printf("MFS Shutdown\n");
-    return 0;
+    exit(0);
+    //return 0;
 }
