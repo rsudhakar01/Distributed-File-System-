@@ -1,15 +1,35 @@
 #include <stdio.h>
 #include "mfs.h"
 
+struct sockaddr_in addrSnd, addrRcv;
+int sd;
+
 int MFS_Init(char *hostname, int port) {
     printf("MFS Init2 %s %d\n", hostname, port);
     // do some net setup
-    return 0;
+    sd = UDP_Open(20000);
+    int rc = UDP_FillSockAddr(&addrSnd, hostname, port);
+    return rc;
 }
 
 int MFS_Lookup(int pinum, char *name) {
     // network communication to do the lookup to server
-    return 0;
+    // sending message in format: namepinum
+    // buffer for name, pinum, and null terminator
+    char message[1024];
+    sprintf(message, name);
+    message[sizeof(name)] = pinum;
+    message[sizeof(name) + 4] = '\0';
+    int rc_send = UDP_Write(sd, &addrSnd, message, 1024);
+    if (rc < 0) {
+        printf("client:: failed to send\n");
+        exit(1);
+    }
+    int rc_return = UDP_Read(sd, &addrRcv, message, 1024);
+    if (rc < 0){
+        return rc;
+    }
+    return atoi(message);
 }
 
 int MFS_Stat(int inum, MFS_Stat_t *m) {
@@ -34,6 +54,7 @@ int MFS_Unlink(int pinum, char *name) {
 
 int MFS_Shutdown() {
     printf("MFS Shutdown\n");
+    //unsure if we should also call UDP_Close before exit
+    //UDP_Close(sd);
     exit(0);
-    //return 0;
 }
