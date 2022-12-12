@@ -16,20 +16,22 @@ int MFS_Lookup(int pinum, char *name) {
     // network communication to do the lookup to server
     // sending message in format: namepinum
     // buffer for name, pinum, and null terminator
-    char message[1024];
-    sprintf(message, name);
-    message[sizeof(name)] = pinum;
-    message[sizeof(name) + 4] = '\0';
-    int rc_send = UDP_Write(sd, &addrSnd, message, 1024);
+    struct message_t to_send;
+    to_send.mtype = 2;
+    sprintf(to_send.message, name);
+    to_send.message[sizeof(name)] = pinum;
+    to_send.message[sizeof(name) + 4] = '\0';
+    int rc_send = UDP_Write(sd, &addrSnd, to_send, 1024);
     if (rc < 0) {
         printf("client:: failed to send\n");
         exit(1);
     }
-    int rc_return = UDP_Read(sd, &addrRcv, message, 1024);
-    if (rc < 0){
+    //implement timeout
+    to_send.rc = UDP_Read(sd, &addrRcv, message, 1024);
+    if (to_send.rc < 0){
         return rc;
     }
-    return atoi(message);
+    return atoi(to_send.message);
 }
 
 int MFS_Stat(int inum, MFS_Stat_t *m) {

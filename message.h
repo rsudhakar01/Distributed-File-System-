@@ -14,6 +14,7 @@
 typedef struct {
     int mtype; // message type from above
     int rc;    // return code
+    char message[1024]; //actual message to send
     // put more here ...
 } message_t;
 
