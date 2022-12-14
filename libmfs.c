@@ -1,13 +1,21 @@
 #include <stdio.h>
 #include "message.h"
 #include "mfs.h"
+#include <time.h>
+#include <stdlib.h>
+
+int MIN_PORT = 20000;
+int MAX_PORT = 40000;
+
+srand(time(0));
+int port_num = (rand() % (MAX_PORT - MIN_PORT) + MIN_PORT);
 
 struct sockaddr_in addrSnd, addrRcv;
 int sd, rc;
 
 int MFS_Init(char *hostname, int port) {
     printf("MFS Init2 %s %d\n", hostname, port);
-    sd = UDP_Open(20000);
+    sd = UDP_Open(port_num);
     assert(sd > -1);
     UDP_FillSockAddr(&addrSnd, hostname, port);
     //tell server to open port?
