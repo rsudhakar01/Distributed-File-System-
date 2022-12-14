@@ -1,8 +1,9 @@
 #include <stdio.h>
+#include "message.h"
 #include "mfs.h"
 
 struct sockaddr_in addrSnd, addrRcv;
-int sd;
+int sd, rc;
 
 int MFS_Init(char *hostname, int port) {
     printf("MFS Init2 %s %d\n", hostname, port);
@@ -67,8 +68,15 @@ int MFS_Unlink(int pinum, char *name) {
 }
 
 int MFS_Shutdown() {
-    printf("MFS Shutdown\n");
+    //printf("MFS Shutdown\n");
     //unsure if we should also call UDP_Close before exit
     //UDP_Close(sd);
-    exit(0);
+    //exit(0);
+    message_t client_msg;
+    client_msg.mtype = 8;
+    rc = UDP_Write(sd, &addrSnd, (char*) &client_msg, sizeof(message_t));
+    if(rc < 0){
+        return -1;
+    }
+    return 0;
 }

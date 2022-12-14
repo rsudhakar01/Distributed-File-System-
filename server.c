@@ -3,8 +3,9 @@
 
 #include "message.h"
 
-int sd;
-struct sockaddr_in addr_receive, sockaddr_in addr_out;
+int sd, fd, port;
+struct sockaddr_in addr_receive;
+struct sockaddr_in addr_out;
 
 void intHandler(int dummy) {
     UDP_Close(sd);
@@ -13,18 +14,20 @@ void intHandler(int dummy) {
 
 int main(int argc, char *argv[]) {
 	signal(SIGINT, intHandler);
-	sd = UDP_Open(10000);
+	//sd = UDP_Open(10000); Not sure if i should remove this and replace with my line below
 	assert(sd > -1);
 	//opening file image 
 	char img_path[1024];
-	if (argv[2] == '0'){
+	if (atoi(argv[2]) == '0'){
 		//incomplete args
 		return -1;
 	}
 	else{
 		img_path = argv[2];
 	}
-	int fd = open(img, O_CREAT | O_RDWR | O_EXCL, 0644);
+	port = atoi(argv[1]);
+	sd = UDP_Open(port);
+	fd = open(img_path, O_CREAT | O_RDWR | O_EXCL, 0644);
 	struct stat st;
 	if(fstat(fd, &st) == -1){
 		perror("error can't read size");
@@ -41,14 +44,26 @@ int main(int argc, char *argv[]) {
 		printf("server:: read message [size:%d contents:(%d)]\n", rc, m.mtype);
 		if (rc > 0) {
 			to_do = m.mtype;
-			if (mtype == 0){
-				//call init
+			if (mtype == 1){
+				//call init (init has code 1, not 0 from message.h)
+			}
+			else if(mtype == 8){
+				server_shutdown(m);
+			}
+			else{
+				break;
 			}
 		} 
     }
     return 0; 
 }
     
-
+int server_shutdown(message_t* msg){
+	fsync(fd);
+	close(fd);
+	UDP_Close(port);
+	exit(0);
+	return 0;
+}
 
  
