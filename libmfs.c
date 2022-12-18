@@ -26,19 +26,20 @@ int MFS_Init(char *hostname, int port) {
     if (sd < 0){
 		return -1;
 	}
-    UDP_FillSockAddr(&addrSnd, hostname, port);
+    int rc = UDP_FillSockAddr(&addrSnd, hostname, port);
     //tell server to open port?
     message_t to_send;
     to_send.mtype = 1;
     //filler for message
     to_send.message[0] = port;
     to_send.message[sizeof(port)] = '\0';
-    int rc_send = UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
+    //int rc = UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
+    //rc = UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
     if (rc < 0) {
         printf("client:: failed to send\n");
         exit(1);
     }
-    UDP_Read(sd, &addrRcv, (char *)&to_send, sizeof(message_t));
+    //UDP_Read(sd, &addrRcv, (char *)&to_send, sizeof(message_t));
     return to_send.rc;
 }
 
@@ -51,7 +52,7 @@ int MFS_Lookup(int pinum, char *name) {
     strcpy(to_send.message, name);
     to_send.message[sizeof(name)] = pinum;
     to_send.message[sizeof(name) + 4] = '\0';
-    int rc_send = UDP_Write(sd, &addrSnd, (char *)&to_send, sizeof(message_t));
+    int rc = UDP_Write(sd, &addrSnd, (char *)&to_send, sizeof(message_t));
     if (rc < 0) {
         printf("client:: failed to send\n");
         exit(1);

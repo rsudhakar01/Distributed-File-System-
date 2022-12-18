@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "udp.h"
+#include "ufs.h"
 #include <sys/mman.h>
 #include "sys/stat.h"
 #include "message.h"
@@ -54,6 +55,7 @@ int server_init(int port, char* img_name){
 int server_shutdown(message_t* msg){
 	fsync(fd);
 	close(fd);
+	UDP_Write(sd, &addr_receive, (char *)&msg, sizeof(message_t));
 	UDP_Close(port);
 	exit(0);
 	return 0;
@@ -68,7 +70,8 @@ int main(int argc, char *argv[]) {
 	port = atoi(argv[1]);
 	char img_path[1024];
 	strcpy(img_path, argv[2]);
-
+	//fd = open(img_path, O_RDWR);
+	sd = UDP_Open(port);
 	// loop through, read requests, call appropriate function...
 	while (1) {
 		int to_do;
@@ -76,14 +79,20 @@ int main(int argc, char *argv[]) {
 		printf("server:: waiting...\n");
 		int rc = UDP_Read(sd, &addr_receive, (char *) &m, sizeof(message_t));
 		printf("server:: read message [size:%d contents:(%d)]\n", rc, m.mtype);
+		//printf("rc is : %d\n", rc);
+		
 		if (rc > 0) {
 			to_do = m.mtype;
 			switch(to_do){
 				case 1:
 					{
-						server_init(port, img_path);
+						server_init(port, img_path);	
 						break;
 					}
+				case 8:
+					server_shutdown(&m);
+					break;
+
 				default:
 					break;
 			} 
