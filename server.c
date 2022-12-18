@@ -19,6 +19,10 @@ char* dregion_ptr;
 
 int image_size;
 
+typedef struct {
+	dir_ent_t entries[BLOCK_SIZE / sizeof(dir_ent_t)];
+} dir_block_t;
+
 void intHandler(int dummy) {
     UDP_Close(sd);
     exit(130);
@@ -89,67 +93,93 @@ int server_create(message_t m){
 	//find data block
 	dir_ent_t*  pinum_db_addr = (dir_ent_t*)(file_ptr + (int)(pinode->direct[0])*4096);
 	// move ptr
-	//int datab_ptr;
-	//datab_ptr = iregion_ptr[pinum].direct[0] - sb_pointer->dregion_ptr;
+	int datab_ptr;
+	datab_ptr = iregion_ptr[pinum].direct[0] - sb_pointer->dregion_ptr;
 
-	for(int i = 0; i < 4096/sizeof(dir_ent_t); i++) {
-		if((*(pinum_db_addr + i)).inum == -1) {
-			(pinum_db_addr + i)->inum = check_freeinode;
-			strcpy((pinum_db_addr+ i)->name, filename);
+	for(int i = 0; i< 4096/sizeof(dir_ent_t); i++) {
+		if(pinum_db_addr[datab_ptr].entries[i].inum == -1) {
+			pinum_db_addr[datab_ptr].entries[i].inum = check_freeinode;
+			strcpy(pinum_db_addr[datab_ptr].entries[i].name, filename);
 			set_bit((unsigned int *)ibitmap_ptr, check_freeinode);
-			pinode[pinum].size += sizeof(dir_ent_t);
+			iregion_ptr[pinum].size += sizeof(dir_ent_t);
 			break;
 		}
 	}
-	//iregion_ptr[check_freeinode].type = dt;
-//
-	//if(dt == MFS_REGULAR_FILE){
-	//	for(int i = 0; i<DIRECT_PTRS; i++) {
-	//		//find free data block
-	//		int new_datab_ptr = 0;
-	//		for(int i = 0; i<sb_pointer->num_inodes; i++) {
-	//			new_datab_ptr = get_bit((unsigned int *)dbitmap_ptr, i);
-	//			if(new_datab_ptr == 0) {
-	//				break;
-	//			}
-	//		}
-	//		iregion_ptr[check_freeinode].direct[i] = new_datab_ptr + sb_pointer->dregion_ptr;
-	//		set_bit((unsigned int *)dbitmap_ptr, new_datab_ptr);
-	//	}
-	//}
-	//else{
-	//	// MFS_DIRECTORY
-	//	dir_ent_t nd_entry[128];
-	//	iregion_ptr[check_freeinode].size = 2 * sizeof(dir_ent_t);
-//
-	//	//setting root
-	//	strcpy(nd_entry[0].name, ".");
-	//	nd_entry[0].inum = check_freeinode;
-	//	strcpy(nd_entry[1].name, "..");
-	//	nd_entry[1].inum = pinum;
-	//	for(int i = 1; i<DIRECT_PTRS; i++) {
-	//		iregion_ptr[check_freeinode].direct[i] = -1;
-	//	}
-	//	for(int i = 2; i<4096/sizeof(dir_ent_t); i++) {
-	//		nd_entry[i].inum = -1;
-	//	}
-//
-	//	//find free datablock
-	//	int new_datab_ptr = 0;
-	//	for(int i = 0; i<sb_pointer ->num_inodes; i++) {
-	//		new_datab_ptr = get_bit((unsigned int *)dbitmap_ptr, i);
-	//		if(new_datab_ptr == 0) {
-	//			break;
-	//		}
-	//	}
-	//	iregion_ptr[check_freeinode].direct[0] = new_datab_ptr + sb_pointer->dregion_ptr;
-	//	set_bit((unsigned int *)dbitmap_ptr, new_datab_ptr);
-//
-	//	memcpy(&pinum_db_addr[new_datab_ptr].entries, nd_entry, 4096);
-	//}
-	//fsynv
+	iregion_ptr[check_freeinode].type = dt;
+
+	if(dt == MFS_REGULAR_FILE){
+		for(int i = 0; i<DIRECT_PTRS; i++) {
+			//find free data block
+			int new_datab_ptr = 0;
+			for(int i = 0; i<sb_pointer->num_inodes; i++) {
+				new_datab_ptr = get_bit((unsigned int *)dbitmap_ptr, i);
+				if(new_datab_ptr == 0) {
+					break;
+				}
+			}
+			iregion_ptr[check_freeinode].direct[i] = new_datab_ptr + sb_pointer->dregion_ptr;
+			set_bit((unsigned int *)dbitmap_ptr, new_datab_ptr);
+		}
+	}
+	else{
+		// MFS_DIRECTORY
+		dir_ent_t nd_entry[128];
+		iregion_ptr[check_freeinode].size = 2 * sizeof(dir_ent_t);
+
+		//setting root
+		strcpy(nd_entry[0].name, ".");
+		nd_entry[0].inum = check_freeinode;
+		strcpy(nd_entry[1].name, "..");
+		nd_entry[1].inum = pinum;
+		for(int i = 1; i<DIRECT_PTRS; i++) {
+			iregion_ptr[check_freeinode].direct[i] = -1;
+		}
+		for(int i = 2; i<4096/sizeof(dir_ent_t); i++) {
+			nd_entry[i].inum = -1;
+		}
+
+		//find free datablock
+		int new_datab_ptr = 0;
+		for(int i = 0; i<sb_pointer ->num_inodes; i++) {
+			new_datab_ptr = get_bit((unsigned int *)dbitmap_ptr, i);
+			if(new_datab_ptr == 0) {
+				break;
+			}
+		}
+		iregion_ptr[check_freeinode].direct[0] = new_datab_ptr + sb_pointer->dregion_ptr;
+		set_bit((unsigned int *)dbitmap_ptr, new_datab_ptr);
+
+		memcpy(&pinum_db_addr[new_datab_ptr].entries, nd_entry, 4096);
+	}
 
 	return 0;
+}
+
+int server_lookup(int pinum, char* name, message_t m){
+	inode_t* pinode = malloc(sizeof(inode_t));
+	//move ptr
+	pinode = (inode_t*)(iregion_ptr + pinum*sizeof(inode_t))	;
+	if(pinode->type!= MFS_DIRECTORY){
+		//failure
+		return -1;
+  }
+
+	// loop and find
+	for(int i = 0; i < DIRECT_PTRS; i++){
+		//if initialized
+		if(pinode->direct[i] != -1){
+			for(int j = 0; j < 128; j++){
+				dir_ent_t* check_entry =  (dir_ent_t*)(file_ptr +  (pinode->direct[i] * 4096) + j*sizeof(dir_ent_t));
+				//printf(" direntry : %p, entry inum : %d, name : %s\n", check_entry, check_entry->inum, check_entry->name);
+				if(strcmp(check_entry->name, name) == 0){
+					m.inum = check_entry->inum;
+					break;
+					}
+				}
+			}
+    }
+	fsync(fd);
+	return -1;
 }
 
 
@@ -191,16 +221,20 @@ int main(int argc, char *argv[]) {
 			switch(to_do){
 				case 1:
 					int si = server_init(img_path);
-					response.rc = -1;
+					m.rc = si;
 					UDP_Write(sd, &addr_receive, (char*)&response, sizeof(message_t));
 					break;
-				case 2: //lookup
+				case 2: 
+						int pinum_temp = m.inum;
+						char filename[28];
+						strcpy(filename, m.name);
+						m.rc = server_lookup(pinum_temp, filename);
+						UDP_Write(sd, &addr_receive, (char*)&m, sizeof(message_t));
 				case 3: //stat
 				case 4: //write
 				case 5: //read
 				case 6: 
 					server_create(m);
-					break;
 				case 7:	//unlink			
 				case 8:
 					server_shutdown(&m);
