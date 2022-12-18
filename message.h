@@ -15,7 +15,9 @@ typedef struct {
     int mtype; // message type from above
     int rc;    // return code
     char message[1024]; //actual message to send
-    // put more here ...
+    int inum;  // inode num
+    int dir_type; // directory or file
+    char name[28]; 
 } message_t;
 
 #endif // __message_h__

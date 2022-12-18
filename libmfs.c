@@ -23,6 +23,7 @@ int MFS_Init(char *hostname, int port) {
     printf("MFS Init2 %s %d\n", hostname, port);
     port_num = port_initialize();
     sd = UDP_Open(port_num);
+    //printf("sd is : %d", sd);
     if (sd < 0){
 		return -1;
 	}
@@ -34,13 +35,17 @@ int MFS_Init(char *hostname, int port) {
     to_send.message[0] = port;
     to_send.message[sizeof(port)] = '\0';
     //int rc = UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
-    //rc = UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
+    //
+    rc = UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
+    
     if (rc < 0) {
+        
         printf("client:: failed to send\n");
         exit(1);
     }
+
     //UDP_Read(sd, &addrRcv, (char *)&to_send, sizeof(message_t));
-    return to_send.rc;
+    return 0;
 }
 
 int MFS_Lookup(int pinum, char *name) {
@@ -78,6 +83,29 @@ int MFS_Read(int inum, char *buffer, int offset, int nbytes) {
 }
 
 int MFS_Creat(int pinum, int type, char *name) {
+    if(name == NULL || strlen(name) > 28){
+        return -1;
+    }
+    if(pinum < 0){
+        return -1;
+    }
+    message_t client_msg;
+    client_msg.mtype = 6;
+    client_msg.inum = pinum;
+    client_msg.dir_type = type;
+    strcpy(client_msg.name, name);
+    
+    rc = UDP_Write(sd, &addrSnd,(char *) &client_msg, sizeof(message_t));
+    if (rc < 0) {
+        printf("client:: create failed\n");
+        return -1;
+    }
+    
+    rc = UDP_Read(sd, &addrRcv, (char*) &client_msg, sizeof(message_t));
+    if(rc < 0){
+        printf("client:: create failed; libmfs.c\n");
+        return -1;
+    }
     return 0;
 }
 
@@ -86,10 +114,6 @@ int MFS_Unlink(int pinum, char *name) {
 }
 
 int MFS_Shutdown() {
-    //printf("MFS Shutdown\n");
-    //unsure if we should also call UDP_Close before exit
-    //UDP_Close(sd);
-    //exit(0);
     message_t client_msg;
     client_msg.mtype = 8;
     rc = UDP_Write(sd, &addrSnd, (char*) &client_msg, sizeof(message_t));

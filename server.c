@@ -52,6 +52,9 @@ int server_init(int port, char* img_name){
 	return 0;
 }
 
+int server_create(){
+	
+}
 int server_shutdown(message_t* msg){
 	fsync(fd);
 	close(fd);
@@ -80,19 +83,21 @@ int main(int argc, char *argv[]) {
 		int rc = UDP_Read(sd, &addr_receive, (char *) &m, sizeof(message_t));
 		printf("server:: read message [size:%d contents:(%d)]\n", rc, m.mtype);
 		//printf("rc is : %d\n", rc);
-		
 		if (rc > 0) {
 			to_do = m.mtype;
 			switch(to_do){
 				case 1:
-					{
-						server_init(port, img_path);	
-						break;
-					}
+					server_init(port, img_path);	
+					break;
+				case 2: //lookup
+				case 3: //stat
+				case 4: //write
+				case 5: //read
+				case 6: //cret
+				case 7:	//unlink			
 				case 8:
 					server_shutdown(&m);
 					break;
-
 				default:
 					break;
 			} 
