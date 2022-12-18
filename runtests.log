@@ -10,10 +10,6 @@ Trying to build project using make
 make
 gcc server.c udp.c -o server
 gcc -c -Wall -fpic libmfs.c udp.c
-libmfs.c: In function ‘MFS_Init’:
-libmfs.c:32:15: warning: variable ‘to_send’ set but not used [-Wunused-but-set-variable]
-   32 |     message_t to_send;
-      |               ^~~~~~~
 gcc -shared -o libmfs.so libmfs.o udp.o
 gcc client.c udp.c -o client -L. -lmfs
 gcc mkfs.c -o mkfs
@@ -36,11 +32,13 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9487
-/tmp/tmpza5ndU/p/server 9487 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
+Starting server on port 7636
+/tmp/tmpHykkSt/p/server 7636 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
+server:: waiting...
+server:: read message [size:1068 contents:(1)]
 server:: waiting...
 server:: read message [size:1068 contents:(8)]
-MFS Init2 localhost 9487
+MFS Init2 localhost 7636
 
 
 test shutdown PASSED
@@ -60,10 +58,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8387
-/tmp/tmpza5ndU/p/server 8387 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
-server:: waiting...
-server:: read message [size:1068 contents:(6)]
+Starting server on port 6088
+/tmp/tmpHykkSt/p/server 6088 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
 
 
 test creat FAILED
@@ -72,4 +68,4 @@ test creat FAILED
 
 Skipped 16 tests.
 To keep testing after failing a test, use flag '-c' or '--continue'
-MFS Init2 localhost 8387
+MFS Init2 localhost 6088
