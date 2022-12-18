@@ -89,21 +89,21 @@ int MFS_Creat(int pinum, int type, char *name) {
     if(pinum < 0){
         return -1;
     }
-    message_t client_msg;
-    client_msg.mtype = 6;
-    client_msg.inum = pinum;
-    client_msg.dir_type = type;
-    strcpy(client_msg.name, name);
+    message_t to_send;
+    to_send.mtype = 6;
+    to_send.inum = pinum;
+    to_send.dir_type = type;
+    strcpy(to_send.name, name);
     
-    rc = UDP_Write(sd, &addrSnd,(char *) &client_msg, sizeof(message_t));
+    rc = UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
     if (rc < 0) {
-        printf("client:: create failed\n");
+        printf("client: create failed\n");
         return -1;
     }
     
-    rc = UDP_Read(sd, &addrRcv, (char*) &client_msg, sizeof(message_t));
+    rc = UDP_Read(sd, &addrRcv, (char*) &to_send, sizeof(message_t));
     if(rc < 0){
-        printf("client:: create failed; libmfs.c\n");
+        printf("client: create failed; libmfs.c\n");
         return -1;
     }
     return 0;
@@ -114,9 +114,9 @@ int MFS_Unlink(int pinum, char *name) {
 }
 
 int MFS_Shutdown() {
-    message_t client_msg;
-    client_msg.mtype = 8;
-    rc = UDP_Write(sd, &addrSnd, (char*) &client_msg, sizeof(message_t));
+    message_t to_send;
+    to_send.mtype = 8;
+    rc = UDP_Write(sd, &addrSnd, (char*) &to_send, sizeof(message_t));
     if(rc < 0){
         return -1;
     }
