@@ -95,8 +95,10 @@ int server_create(message_t m){
 	m.rc = -1;
 	m.inum = -1;
 	inode_t* pinode = malloc(sizeof(inode_t));
-	pinode = (inode_t*)(iregion_ptr + pinum*sizeof(inode_t));
-	if(pinode->type!= MFS_DIRECTORY){
+    pinode = (inode_t*)(iregion_ptr + pinum*sizeof(inode_t));
+
+	if(pinode->type != MFS_DIRECTORY){
+			m.inum = -1;
 			fsync(fd);
 			UDP_Write(sd, &addr_send, (char*)&m, sizeof(message_t));
 			return -1;
@@ -137,21 +139,20 @@ int server_create(message_t m){
 		// MFS_DIRECTORY
 
 		//set all to uninitialized
-		f_inode-> size = 2 * sizeof(dir_ent_t);
+		//f_inode-> size = 2 * sizeof(dir_ent_t);
 		//switch to i = 1 maybe if error 
-		for(int i = 0; i < DIRECT_PTRS; i++){
-        f_inode->direct[i] = -1;
-      }
+		f_inode-> size = 2 * sizeof(dir_ent_t);
 		//find free datablock
 		int new_datab_ptr = -1;
+		int final = -1;
 		for(int i = 0; i < sb_pointer->num_inodes; i++) {
 			new_datab_ptr = get_bit((unsigned int *)dbitmap_ptr, i);
 			if(new_datab_ptr == 0) {
-				new_datab_ptr = i;
+				final = i;
 				break;
 			}
 		}
-		db_new = new_datab_ptr + sb_pointer->data_region_addr;
+		db_new = final + sb_pointer->data_region_addr;
 		f_inode->direct[0] = db_new;
 		total_entries = (dir_ent_t*)((char*)file_ptr + db_new*4096);
 
@@ -159,7 +160,11 @@ int server_create(message_t m){
 		strcpy(total_entries->name, ".");
 		strcpy((total_entries+1)->name,"..");
 		total_entries->inum = check_freeinode;
-    (total_entries+1)->inum = m.inum;
+    	(total_entries+1)->inum = m.inum;
+		//f_inode-> size = 2 * sizeof(dir_ent_t);
+		for(int i = 1; i < DIRECT_PTRS; i++){
+        f_inode->direct[i] = -1;
+      	}
 		for(int i = 2; i<4096/sizeof(dir_ent_t); i++) {
 			(total_entries+i)->inum= -1;
 		}
@@ -169,18 +174,19 @@ int server_create(message_t m){
 		//MFS REG FILE
 		for(int i = 0; i < DIRECT_PTRS; i++) {
 			//find free data block
-			int new_datab_ptr = 0;
+			int new_datab_ptr = -1;
+			int final = -1;
 			for(int j = 0; i < sb_pointer->num_inodes; j++) {
 				new_datab_ptr = get_bit((unsigned int *)dbitmap_ptr, j);
 				if(new_datab_ptr == 0) {
-					new_datab_ptr = j;
+					final = j;
 					break;
 				}
 			}
-			db_new = new_datab_ptr;
+			db_new = final;
 			//maybe swap order if error
-			set_bit((unsigned int *)dbitmap_ptr, db_new);
 			f_inode->direct[i] = new_datab_ptr + sb_pointer->data_region_addr;
+			set_bit((unsigned int *)dbitmap_ptr, db_new);
 		}
 	}
 	m.rc = 0;
@@ -193,7 +199,7 @@ int server_lookup(int pinum, char* name, message_t m){
 	inode_t* pinode = malloc(sizeof(inode_t));
 	//move ptr
 	pinode = (inode_t*)(iregion_ptr + pinum*sizeof(inode_t));
-	if(pinode->type!= MFS_DIRECTORY){
+	if(pinode->type != MFS_DIRECTORY || pinode <= 0 ){
 		//failure
 		m.inum = -1;
 		m.rc = -1;
@@ -214,45 +220,50 @@ int server_lookup(int pinum, char* name, message_t m){
 					fsync(fd);
 					UDP_Write(sd, &addr_send, (char*)&m, sizeof(message_t));
 					return m.inum;
-					}
 				}
 			}
+		}
     }
+	
 	fsync(fd);
 	UDP_Write(sd, &addr_send, (char*)&m, sizeof(message_t));
 	return -1;
 }
 
-int server_unlink(int pinum, char* name){
-	if(pinum < 0){
-        return -1;
-    }
+int server_unlink(int pinum, char* name, message_t m){
     printf("came into unlink here\n");
 	int entries;
-	message_t to_send; 
-	inode_t* int_inode;
+	;
 	inode_t* pinode = malloc(sizeof(inode_t));
+	//m.rc = -98;
 	//move ptr
 	pinode = (inode_t*)(iregion_ptr + pinum*sizeof(inode_t));
-	if(pinode->type != MFS_DIRECTORY){
-		to_send.inum = -1;
-		to_send.rc = -1;
+	if(pinode->type != MFS_DIRECTORY || pinum < 0){
+		m.inum = -1;
+		m.rc = -75;
 		fsync(fd);
-		UDP_Write(sd, &addr_send, (char*)&to_send, sizeof(message_t));
+		UDP_Write(sd, &addr_send, (char*)&m, sizeof(message_t));
 		return -1;
 	}
-	for(int i = 0; i < pinode->size/sizeof(dir_ent_t); i++){
+	dir_ent_t* dir_ptr = (dir_ent_t*)((char*)file_ptr + (pinode->direct[0])*4096);
+
+	for(int i = 0; i < 128; i++){
 		//dir_ent_t* dir_ptr = (dir_ent_t*)(char*)file_ptr + (pinode->direct[i*sizeof(dir_ent_t)/4096])*4096 + (i * sizeof(dir_ent_t)/4096) % 4096;
-		dir_ent_t* dir_ptr = (dir_ent_t*)(char*)file_ptr + (pinode->direct[i])*4096;
-		if(strcmp(dir_ptr->name,name) == 0){
-			if(dir_ptr->inum != -1){
-				int_inode = malloc(sizeof(inode_t));
+		//dir_ent_t* dir_ptr = (dir_ent_t*)(char*)file_ptr + (pinode->direct[i])*4096;
+		if(strcmp((dir_ptr+i)->name,m.name) == 0){
+			if((dir_ptr+i)->inum != -1){
+				
+				inode_t* int_inode = malloc(sizeof(inode_t));
 				//move ptr
-				int_inode = (inode_t*)(iregion_ptr + dir_ptr->inum*sizeof(inode_t));
+				int_inode = (inode_t*)(iregion_ptr + ((dir_ptr+i)->inum)*sizeof(inode_t));
 				//entries = int_inode->size/sizeof(dir_ent_t);
+				strcpy((dir_ptr+i)->name, "\0");
+
 				if(int_inode->type == MFS_DIRECTORY){
 					if(int_inode->size > 2*sizeof(dir_ent_t)){
-						UDP_Write(sd, &addr_send, (char*)&to_send, sizeof(message_t));
+						m.rc = -1;
+						fsync(fd);
+						UDP_Write(sd, &addr_send, (char*)&m, sizeof(message_t));
                     	return -1;
 					}
 					//for(int j = 2; j < int_inode->size/sizeof(dir_ent_t); j++){
@@ -262,22 +273,30 @@ int server_unlink(int pinum, char* name){
 					//		return -1;
 					//	}
 					//}
-					dir_ent_t* dir_entry = (dir_ent_t*)(file_ptr + (int_inode->direct[i]*4096));
+					dir_ent_t* dir_entry = (dir_ent_t*)((char*)file_ptr + (int_inode->direct[0]*4096));
 					dir_entry->inum = -1;
                 	(dir_entry+1)->inum = -1;
-					zero_bit(ibitmap_ptr, dir_ptr->inum);
-					int pos = int_inode->direct[0] - sb_pointer->data_region_addr;;
-					zero_bit(dbitmap_ptr, pos);
+					zero_bit((unsigned int*)ibitmap_ptr, (dir_ptr+i)->inum);
+					int pos = int_inode->direct[0] - sb_pointer->data_region_addr;
+					zero_bit((unsigned int*)dbitmap_ptr, pos);
+					m.inum = 0;
+					m.rc = 0;
+					(dir_ptr+i)->inum = -1;
+					fsync(fd);
+					UDP_Write(sd, &addr_send, (char*)&m, sizeof(message_t));
+                	return 0;
 				}
 				else{
 					for(int i = 0; i < 30; i++){
                 	int int_dbnum = int_inode->direct[i] - sb_pointer->data_region_addr;
                 	zero_bit((unsigned int*) dbitmap_ptr, int_dbnum);
                 	}
-                	zero_bit((unsigned int *)ibitmap_ptr, dir_ptr->inum);
+                	zero_bit((unsigned int *)ibitmap_ptr, (dir_ptr-+i)->inum);
                 	dir_ptr->inum = -1;
-                	to_send.inum = 0;
-                	UDP_Write(sd, &addr_send, (char*)&to_send, sizeof(message_t));
+                	m.inum = 0;
+                	m.rc = 0;
+					fsync(fd);
+					UDP_Write(sd, &addr_send, (char*)&m, sizeof(message_t));
                 	return 0;
 				}
 				//dir_ptr->inum = -1;
@@ -288,9 +307,10 @@ int server_unlink(int pinum, char* name){
 			//	   zero_bit(dbitmap_ptr, pos);
         	//}
     		//zero_bit(ibitmap_ptr, dir_ptr->inum);
-		}
-		
+		}	
 	}
+	fsync(fd);
+	UDP_Write(sd, &addr_send, (char*)&m, sizeof(message_t));
 	return 0;
 }
 int server_read(message_t m){
@@ -385,7 +405,7 @@ int main(int argc, char *argv[]) {
 					break;
 				}
 				case 7:	
-					server_unlink(m.inum, m.name);
+					server_unlink(m.inum, m.name, m);
 					break;//unlink			
 				case 8:
 					server_shutdown(m);

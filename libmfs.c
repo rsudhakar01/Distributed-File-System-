@@ -105,18 +105,19 @@ int MFS_Creat(int pinum, int type, char *name) {
 }
 
 int MFS_Unlink(int pinum, char *name) {
-    message_t to_send;
+    message_t to_send, to_receive;
     to_send.mtype = 7;
     to_send.inum = pinum;
     strncpy(to_send.name, name, 28);
+    to_receive.rc= 98;
     rc = UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
     if (rc < 0) {
         printf("client: unlink failed\n");
         return -1;
     }
-    rc = UDP_Read(sd, &addrRcv, (char*)&to_send, sizeof(message_t));
-    printf("rc is : %d\n", rc);
-    return 0;
+    rc = UDP_Read(sd, &addrRcv, (char*)&to_receive, sizeof(message_t));
+    printf("rc is : %d\n", to_receive.rc);
+    return to_receive.rc;
 }
 
 int MFS_Shutdown() {

@@ -32,14 +32,14 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9964
-/tmp/tmpbNXUch/p/server 9964 /home/uday/CS537/p4/Distributed-File-System-/test.img
+Starting server on port 8550
+/tmp/tmpJAy2fi/p/server 8550 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
 herebass
 server:: waiting...
 server:: read message [size:4148 contents:(1)]
 server:: waiting...
 server:: read message [size:4148 contents:(8)]
-MFS Init2 localhost 9964
+MFS Init2 localhost 8550
 
 
 test shutdown PASSED
@@ -59,8 +59,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6585
-/tmp/tmpbNXUch/p/server 6585 /home/uday/CS537/p4/Distributed-File-System-/test.img
+Starting server on port 6630
+/tmp/tmpJAy2fi/p/server 6630 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
 herebass
 server:: waiting...
 server:: read message [size:4148 contents:(1)]
@@ -70,7 +70,7 @@ server:: waiting...
 server:: read message [size:4148 contents:(2)]
 server:: waiting...
 server:: read message [size:4148 contents:(8)]
-MFS Init2 localhost 6585
+MFS Init2 localhost 6630
 
 
 test creat PASSED
@@ -90,9 +90,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7407
-/tmp/tmpbNXUch/p/server 7407 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 7407
+Starting server on port 9782
+/tmp/tmpJAy2fi/p/server 9782 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 9782
 bytemama-1
 Failure: MFS_Read returned failure inum=0 block=0
 
@@ -115,9 +115,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8219
-/tmp/tmpbNXUch/p/server 8219 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 8219
+Starting server on port 6404
+/tmp/tmpJAy2fi/p/server 6404 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 6404
 Failure: Stat gave wrong type
 
 
@@ -139,9 +139,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6845
-/tmp/tmpbNXUch/p/server 6845 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 6845
+Starting server on port 6541
+/tmp/tmpJAy2fi/p/server 6541 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 6541
 bytemama-1
 Failure: MFS_Read returned failure inum=0 block=0
 
@@ -164,9 +164,9 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5520
-/tmp/tmpbNXUch/p/server 5520 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 5520
+Starting server on port 8641
+/tmp/tmpJAy2fi/p/server 8641 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 8641
 bytemama-1
 Failure: MFS_Read returned failure inum=0 block=0
 
@@ -189,9 +189,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8186
-/tmp/tmpbNXUch/p/server 8186 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 8186
+Starting server on port 8803
+/tmp/tmpJAy2fi/p/server 8803 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 8803
 31
 write more than need
 Failure: MFS_Write should fail on inalid block number
@@ -215,8 +215,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7384
-/tmp/tmpbNXUch/p/server 7384 /home/uday/CS537/p4/Distributed-File-System-/test.img
+Starting server on port 9502
+/tmp/tmpJAy2fi/p/server 9502 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
 herebass
 server:: waiting...
 server:: read message [size:4148 contents:(1)]
@@ -226,7 +226,7 @@ server:: waiting...
 server:: read message [size:4148 contents:(2)]
 server:: waiting...
 server:: read message [size:4148 contents:(8)]
-MFS Init2 localhost 7384
+MFS Init2 localhost 9502
 
 
 test dir1 PASSED
@@ -246,8 +246,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5761
-/tmp/tmpbNXUch/p/server 5761 /home/uday/CS537/p4/Distributed-File-System-/test.img
+Starting server on port 6113
+/tmp/tmpJAy2fi/p/server 6113 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
 herebass
 server:: waiting...
 server:: read message [size:4148 contents:(1)]
@@ -261,7 +261,7 @@ server:: waiting...
 server:: read message [size:4148 contents:(2)]
 server:: waiting...
 server:: read message [size:4148 contents:(8)]
-MFS Init2 localhost 5761
+MFS Init2 localhost 6113
 
 
 test dir2 PASSED
@@ -281,9 +281,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6557
-/tmp/tmpbNXUch/p/server 6557 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 6557
+Starting server on port 9581
+/tmp/tmpJAy2fi/p/server 9581 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 9581
 Failure: MFS_Creat should fail if pinum is not a directory
 
 
@@ -305,9 +305,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5740
-/tmp/tmpbNXUch/p/server 5740 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 5740
+Starting server on port 7265
+/tmp/tmpJAy2fi/p/server 7265 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 7265
 Failure: MFS_Lookup should fail if pinum is not a directory
 
 
@@ -329,9 +329,10 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6948
-/tmp/tmpbNXUch/p/server 6948 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 6948
+Starting server on port 6642
+/tmp/tmpJAy2fi/p/server 6642 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 6642
+rc is : 0
 Failure: MFS_Lookup should fail on an unlinked file
 
 
@@ -353,9 +354,10 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8021
-/tmp/tmpbNXUch/p/server 8021 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 8021
+Starting server on port 5664
+/tmp/tmpJAy2fi/p/server 5664 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 5664
+rc is : 0
 Failure: MFS_Lookup should fail on an unlinked file
 
 
@@ -377,9 +379,10 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6770
-/tmp/tmpbNXUch/p/server 6770 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 6770
+Starting server on port 6324
+/tmp/tmpJAy2fi/p/server 6324 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 6324
+rc is : 0
 Failure: MFS_Unlink should fail on non-empty dir
 
 
@@ -401,14 +404,14 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6774
-/tmp/tmpbNXUch/p/server 6774 /home/uday/CS537/p4/Distributed-File-System-/test.img
+Starting server on port 8441
+/tmp/tmpJAy2fi/p/server 8441 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
 herebass
 server:: waiting...
 server:: read message [size:4148 contents:(1)]
 server:: waiting...
 server:: read message [size:4148 contents:(8)]
-MFS Init2 localhost 6774
+MFS Init2 localhost 8441
 
 
 test name PASSED
@@ -428,9 +431,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8883
-/tmp/tmpbNXUch/p/server 8883 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 8883
+Starting server on port 7907
+/tmp/tmpJAy2fi/p/server 7907 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 7907
 bytemama-1
 Failure: MFS_Read returned failure inum=0 block=0
 
@@ -453,8 +456,8 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5001
-/tmp/tmpbNXUch/p/server 5001 /home/uday/CS537/p4/Distributed-File-System-/test.img
+Starting server on port 6653
+/tmp/tmpJAy2fi/p/server 6653 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
 herebass
 server:: waiting...
 server:: read message [size:4148 contents:(1)]
@@ -968,7 +971,7 @@ server:: waiting...
 server:: read message [size:4148 contents:(2)]
 server:: waiting...
 server:: read message [size:4148 contents:(8)]
-MFS Init2 localhost 5001
+MFS Init2 localhost 6653
 
 
 test bigdir PASSED
@@ -988,8 +991,8 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8675
-/tmp/tmpbNXUch/p/server 8675 /home/uday/CS537/p4/Distributed-File-System-/test.img
+Starting server on port 8406
+/tmp/tmpJAy2fi/p/server 8406 /home/sudhakar/private/cs537/p4/Distributed-File-System-/test.img
 herebass
 server:: waiting...
 server:: read message [size:4148 contents:(1)]
@@ -1025,7 +1028,7 @@ server:: waiting...
 server:: read message [size:4148 contents:(2)]
 server:: waiting...
 server:: read message [size:4148 contents:(8)]
-MFS Init2 localhost 8675
+MFS Init2 localhost 8406
 
 
 test deep PASSED
