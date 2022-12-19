@@ -37,7 +37,7 @@ int MFS_Init(char *hostname, int port) {
     //int rc = UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
     //
     UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
-    int rc = UDP_Read(sd, &addrRcv, (char *)&to_send, sizeof(message_t));
+    rc = UDP_Read(sd, &addrRcv, (char *)&to_send, sizeof(message_t));
     if (rc < 0) {
         printf("client:: failed to send\n");
         return -1;
@@ -52,15 +52,15 @@ int MFS_Lookup(int pinum, char *name) {
     message_t to_send;
     to_send.mtype = 2;
     to_send.inum = pinum;
-    strcnpy(to_send.message, name, 28);
+    strncpy(to_send.message, name, 28);
     to_send.message[sizeof(name)] = pinum;
     to_send.message[sizeof(name) + 4] = '\0';
-    int rc = UDP_Write(sd, &addrSnd, (char *)&to_send, sizeof(message_t));
+    rc = UDP_Write(sd, &addrSnd, (char *)&to_send, sizeof(message_t));
     if (rc < 0) {
         printf("client:: failed to send\n");
         exit(1);
     }
-    int rc = UDP_Read(sd, &addrRcv, (char *)&to_send, sizeof(message_t));
+    rc = UDP_Read(sd, &addrRcv, (char *)&to_send, sizeof(message_t));
     return rc;
 }
 

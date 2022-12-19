@@ -20,7 +20,7 @@ char* dregion_ptr;
 int image_size;
 
 typedef struct {
-	dir_ent_t entries[BLOCK_SIZE / sizeof(dir_ent_t)];
+	dir_ent_t entries[4096 / sizeof(dir_ent_t)];
 } dir_block_t;
 
 void intHandler(int dummy) {
