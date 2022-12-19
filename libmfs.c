@@ -44,7 +44,6 @@ int MFS_Lookup(int pinum, char *name) {
     to_send.mtype = 2;
     to_send.inum = pinum;
     to_receive.inum = -1;
-    strncpy(to_send.message, name, 28);
     rc = UDP_Write(sd, &addrSnd, (char *)&to_send, sizeof(message_t));
     if (rc < 0) {
         printf("client:: failed to send\n");
@@ -63,7 +62,23 @@ int MFS_Write(int inum, char *buffer, int offset, int nbytes) {
 }
 
 int MFS_Read(int inum, char *buffer, int offset, int nbytes) {
-    return 0;
+    message_t to_send, to_receive;
+    to_send.mtype = 5;
+    to_send.inum = inum;
+    to_send.offset = offset;
+    to_send.bytes = nbytes;
+    to_receive.rc = -1;
+    rc = UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
+    if (rc < 0) {
+        printf("client: create failed\n");
+        return -1;
+    }
+    UDP_Read(sd, &addrRcv, (char*)&to_receive, sizeof(message_t));
+    printf("bytemama%i\n", to_receive.rc);
+    if (to_receive.rc != -1){
+        memcpy(buffer,to_receive.buffer,to_send.bytes);
+    }
+    return to_receive.rc;
 }
 
 int MFS_Creat(int pinum, int type, char *name) {

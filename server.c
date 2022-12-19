@@ -41,8 +41,8 @@ void set_bit(unsigned int *bitmap, int position) {
    bitmap[index] |= 0x1 << offset;
 }
 
-int server_init(char* img_name, message_t m){
-	fd = open(img_name, O_RDWR);
+int server_init(char* file_ptr_name, message_t m){
+	fd = open(file_ptr_name, O_RDWR);
 	if (fd < 0){
 		m.rc = -1;
 		fsync(fd);
@@ -132,6 +132,10 @@ int server_create(message_t m){
 
 		//set all to uninitialized
 		f_inode-> size = 2 * sizeof(dir_ent_t);
+		//switch to i = 1 maybe if error 
+		for(int i = 0; i < DIRECT_PTRS; i++){
+        f_inode->direct[i] = -1;
+      }
 		//find free datablock
 		int new_datab_ptr = -1;
 		for(int i = 0; i < sb_pointer->num_inodes; i++) {
@@ -154,10 +158,6 @@ int server_create(message_t m){
 			(total_entries+i)->inum= -1;
 		}
 		set_bit((unsigned int *)dbitmap_ptr, db_new-sb_pointer->data_region_addr);
-		//switch to i = 1 maybe if error 
-		for(int i = 1; i < DIRECT_PTRS; i++){
-        f_inode->direct[i] = -1;
-      }
 	}
 	else{
 		//MFS REG FILE
@@ -173,8 +173,8 @@ int server_create(message_t m){
 			}
 			db_new = new_datab_ptr;
 			//maybe swap order if error
-			f_inode->direct[i] = new_datab_ptr + sb_pointer->data_region_addr;
 			set_bit((unsigned int *)dbitmap_ptr, db_new);
+			f_inode->direct[i] = new_datab_ptr + sb_pointer->data_region_addr;
 		}
 	}
 	m.rc = 0;
@@ -217,7 +217,43 @@ int server_lookup(int pinum, char* name, message_t m){
 	return -1;
 }
 
+int server_read(message_t m){
+	m.rc = -1;
+	//checks
+	//unsigned long err_Test = get_bit((unsigned int*)ibitmap_ptr, m.inum); != 1
+	if(m.bytes>4096 || get_bit((unsigned int*)ibitmap_ptr, m.inum) !=1){
+		fsync(fd);
+		UDP_Write(sd, &addr_send, (char *)&m, sizeof(message_t));
+		return -1;
+	}
+	inode_t* pinode = malloc(sizeof(inode_t));
+	pinode = (inode_t*)(iregion_ptr + m.inum*sizeof(inode_t));
+	if(pinode->size < m.offset + m.bytes){
+		fsync(fd);
+		UDP_Write(sd, &addr_send, (char *)&m, sizeof(message_t));
+		return -1;
+	}
 
+	int offset_start = m.offset % 4096;
+	unsigned long current = pinode->direct[m.offset/4096]; // in blocks current writing block
+	unsigned long currentAddress = current*4096;
+
+	dir_ent_t*  pinum_db_addr = (dir_ent_t*)((char*)file_ptr+ (int)(pinode->direct[0])*4096);
+	if(offset_start + m.bytes <= 4096) {
+		char* oneblock = (char*)file_ptr + currentAddress;
+		memcpy((void*)m.buffer, (void*)(oneblock + offset_start), m.bytes);
+	}
+	else {
+		char* block_first= (char*)file_ptr + currentAddress;
+		char* block_two = (char*)file_ptr + (pinode->direct[(m.offset/4096) + 1])*4096;
+		memcpy((void*)m.buffer, (void*)(block_first+offset_start), 4096 - offset_start);
+		memcpy((void*)(m.buffer + 4096 - offset_start), (void*)(block_two),m.bytes - (4096 - offset_start));
+	}
+	m.rc = 0;
+	fsync(fd);
+	UDP_Write(sd, &addr_send, (char *)&m, sizeof(message_t));
+	return 0;
+}
 int server_shutdown(message_t m){
 	m.rc = 0;
 	fsync(fd);
@@ -237,8 +273,8 @@ int main(int argc, char *argv[]) {
 
 	port = atoi(argv[1]);
 	
-	char img_path[4096];
-	strcpy(img_path, argv[2]);
+	char file_ptr_path[4096];
+	strcpy(file_ptr_path, argv[2]);
 	sd = UDP_Open(port);
 	if (sd <= -1){
 		return -1;
@@ -255,7 +291,7 @@ int main(int argc, char *argv[]) {
 			to_do = m.mtype;
 			switch(to_do){
 				case 1:{
-					server_init(img_path, m);
+					server_init(file_ptr_path, m);
 					break;
 				}
 				case 2:{
@@ -265,7 +301,7 @@ int main(int argc, char *argv[]) {
 				case 3: //stat
 				case 4: //write
 				case 5: {
-					//server_read(m, m);
+					server_read(m);
 					break;
 				}
 				case 6: {
