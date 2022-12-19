@@ -32,14 +32,14 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8364
-/tmp/tmpsPcXfi/p/server 8364 /home/uday/CS537/p4/Distributed-File-System-/test.img
+Starting server on port 6941
+/tmp/tmpJAvcN7/p/server 6941 /home/uday/CS537/p4/Distributed-File-System-/test.img
 herebass
 server:: waiting...
 server:: read message [size:1068 contents:(1)]
 server:: waiting...
 server:: read message [size:1068 contents:(8)]
-MFS Init2 localhost 8364
+MFS Init2 localhost 6941
 
 
 test shutdown PASSED
@@ -59,17 +59,921 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9380
-/tmp/tmpsPcXfi/p/server 9380 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 9380
+Starting server on port 9126
+/tmp/tmpJAvcN7/p/server 9126 /home/uday/CS537/p4/Distributed-File-System-/test.img
+herebass
+server:: waiting...
+server:: read message [size:1068 contents:(1)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(2)]
+server:: waiting...
+server:: read message [size:1068 contents:(8)]
+MFS Init2 localhost 9126
 came crelookup 0
-came lookup -394
-Failure: MFS_Lookup returned failure inum=0 name='test'
 
 
-test creat FAILED
+test creat PASSED
  (creat a file and check with lookup)
- MFS_Lookup returned failure inum=0 name='test'
 
-Skipped 16 tests.
-To keep testing after failing a test, use flag '-c' or '--continue'
+('starting', 'write')
+
+**********************************************************************
+
+Test write
+write then read one block
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 7816
+/tmp/tmpJAvcN7/p/server 7816 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 7816
+came crelookup 0
+('START BLOCK 1\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00END BLOCK 1')
+('\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
+Failure: Corrupt data returned by read
+
+
+test write FAILED
+ (write then read one block)
+ Corrupt data returned by read
+
+('starting', 'stat')
+
+**********************************************************************
+
+Test stat
+stat a regular file
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 8684
+/tmp/tmpJAvcN7/p/server 8684 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 8684
+came crelookup 0
+Failure: Stat gave wrong type
+
+
+test stat FAILED
+ (stat a regular file)
+ Stat gave wrong type
+
+('starting', 'overwrite')
+
+**********************************************************************
+
+Test overwrite
+overwrite a block
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 5294
+/tmp/tmpJAvcN7/p/server 5294 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 5294
+came crelookup 0
+Failure: Corrupt data returned by read
+
+
+test overwrite FAILED
+ (overwrite a block)
+ Corrupt data returned by read
+
+('starting', 'maxfile')
+
+**********************************************************************
+
+Test maxfile
+write largest possible file
+
+**********************************************************************
+total blocks        39
+  inodes            128 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 5927
+/tmp/tmpJAvcN7/p/server 5927 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 5927
+came crelookup 0
+Failure: Corrupt data returned by read
+
+
+test maxfile FAILED
+ (write largest possible file)
+ Corrupt data returned by read
+
+('starting', 'maxfile2')
+
+**********************************************************************
+
+Test maxfile2
+write more blocks than possible
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 7376
+/tmp/tmpJAvcN7/p/server 7376 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 7376
+came crelookup 0
+31
+write more than need
+Failure: MFS_Write should fail on inalid block number
+
+
+test maxfile2 FAILED
+ (write more blocks than possible)
+ MFS_Write should fail on inalid block number
+
+('starting', 'dir1')
+
+**********************************************************************
+
+Test dir1
+check root for dot entries
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 7721
+/tmp/tmpJAvcN7/p/server 7721 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 7721
+Failure: '.' in root should point to root inode
+
+
+test dir1 FAILED
+ (check root for dot entries)
+ '.' in root should point to root inode
+
+('starting', 'dir2')
+
+**********************************************************************
+
+Test dir2
+create a new directory and check it
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 9062
+/tmp/tmpJAvcN7/p/server 9062 /home/uday/CS537/p4/Distributed-File-System-/test.img
+herebass
+server:: waiting...
+server:: read message [size:1068 contents:(1)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(2)]
+server:: waiting...
+server:: read message [size:1068 contents:(2)]
+server:: waiting...
+server:: read message [size:1068 contents:(2)]
+server:: waiting...
+server:: read message [size:1068 contents:(8)]
+MFS Init2 localhost 9062
+came crelookup 0
+
+
+test dir2 PASSED
+ (create a new directory and check it)
+
+('starting', 'baddir')
+
+**********************************************************************
+
+Test baddir
+try to create a file with a file parent inode
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 6076
+/tmp/tmpJAvcN7/p/server 6076 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 6076
+came crelookup 0
+came crelookup 0
+Failure: MFS_Creat should fail if pinum is not a directory
+
+
+test baddir FAILED
+ (try to create a file with a file parent inode)
+ MFS_Creat should fail if pinum is not a directory
+
+('starting', 'baddir2')
+
+**********************************************************************
+
+Test baddir2
+try to lookup a file with a file parent inode
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 7743
+/tmp/tmpJAvcN7/p/server 7743 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 7743
+came crelookup 0
+Failure: MFS_Lookup should fail if pinum is not a directory
+
+
+test baddir2 FAILED
+ (try to lookup a file with a file parent inode)
+ MFS_Lookup should fail if pinum is not a directory
+
+('starting', 'unlink')
+
+**********************************************************************
+
+Test unlink
+unlink a file
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 7156
+/tmp/tmpJAvcN7/p/server 7156 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 7156
+came crelookup 0
+Failure: MFS_Lookup should fail on an unlinked file
+
+
+test unlink FAILED
+ (unlink a file)
+ MFS_Lookup should fail on an unlinked file
+
+('starting', 'unlink2')
+
+**********************************************************************
+
+Test unlink2
+unlink a directory
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 9794
+/tmp/tmpJAvcN7/p/server 9794 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 9794
+came crelookup 0
+Failure: MFS_Lookup should fail on an unlinked file
+
+
+test unlink2 FAILED
+ (unlink a directory)
+ MFS_Lookup should fail on an unlinked file
+
+('starting', 'empty')
+
+**********************************************************************
+
+Test empty
+unlink a non-empty directory
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 7799
+/tmp/tmpJAvcN7/p/server 7799 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 7799
+came crelookup 0
+came crelookup 0
+Failure: MFS_Unlink should fail on non-empty dir
+
+
+test empty FAILED
+ (unlink a non-empty directory)
+ MFS_Unlink should fail on non-empty dir
+
+('starting', 'name')
+
+**********************************************************************
+
+Test name
+name too long
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 5156
+/tmp/tmpJAvcN7/p/server 5156 /home/uday/CS537/p4/Distributed-File-System-/test.img
+herebass
+server:: waiting...
+server:: read message [size:1068 contents:(1)]
+server:: waiting...
+server:: read message [size:1068 contents:(8)]
+MFS Init2 localhost 5156
+
+
+test name PASSED
+ (name too long)
+
+('starting', 'persist')
+
+**********************************************************************
+
+Test persist
+restart server after creating a file
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 7108
+/tmp/tmpJAvcN7/p/server 7108 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 7108
+came crelookup 0
+Failure: Corrupt data returned by read
+
+
+test persist FAILED
+ (restart server after creating a file)
+ Corrupt data returned by read
+
+('starting', 'bigdir')
+
+**********************************************************************
+
+Test bigdir
+create a directory with 126 files
+
+**********************************************************************
+total blocks        39
+  inodes            128 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 5427
+/tmp/tmpJAvcN7/p/server 5427 /home/uday/CS537/p4/Distributed-File-System-/test.img
+herebass
+server:: waiting...
+server:: read message [size:1068 contents:(1)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(2)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: MFS Init2 localhost 5427
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+Failure: MFS_Lookup returned failure inum=0 name='0'
+
+
+test bigdir FAILED
+ (create a directory with 126 files)
+ MFS_Lookup returned failure inum=0 name='0'
+
+('starting', 'deep')
+
+**********************************************************************
+
+Test deep
+create many deeply nested directories
+
+**********************************************************************
+total blocks        39
+  inodes            128 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 5923
+/tmp/tmpJAvcN7/p/server 5923 /home/uday/CS537/p4/Distributed-File-System-/test.img
+herebass
+server:: waiting...
+server:: read message [size:1068 contents:(1)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(2)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(2)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(2)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(2)]
+server:: waiting...
+server:: read message [size:1068 contents:(6)]
+server:: waiting...
+server:: read message [size:1068 contents:(2)]
+server:: waiting...
+server:: read message [size:1068 contents:(2)]
+server:: waiting...
+server:: read message [size:1068 contents:(2)]
+server:: waiting...
+server:: read message [size:1068 contents:(2)]
+server:: waiting...
+server:: read message [size:1068 contents:(2)]
+server:: waiting...
+server:: read message [size:1068 contents:(2)]
+server:: waiting...
+server:: read message [size:1068 contents:(8)]
+MFS Init2 localhost 5923
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+came crelookup 0
+
+
+test deep PASSED
+ (create many deeply nested directories)
+
+**********************************************************************
+Summary:
+test build PASSED
+ (build project using make)
+
+test shutdown PASSED
+ (init server and client then call shutdown)
+
+test creat PASSED
+ (creat a file and check with lookup)
+
+test write FAILED
+ (write then read one block)
+ Corrupt data returned by read
+
+test stat FAILED
+ (stat a regular file)
+ Stat gave wrong type
+
+test overwrite FAILED
+ (overwrite a block)
+ Corrupt data returned by read
+
+test maxfile FAILED
+ (write largest possible file)
+ Corrupt data returned by read
+
+test maxfile2 FAILED
+ (write more blocks than possible)
+ MFS_Write should fail on inalid block number
+
+test dir1 FAILED
+ (check root for dot entries)
+ '.' in root should point to root inode
+
+test dir2 PASSED
+ (create a new directory and check it)
+
+test baddir FAILED
+ (try to create a file with a file parent inode)
+ MFS_Creat should fail if pinum is not a directory
+
+test baddir2 FAILED
+ (try to lookup a file with a file parent inode)
+ MFS_Lookup should fail if pinum is not a directory
+
+test unlink FAILED
+ (unlink a file)
+ MFS_Lookup should fail on an unlinked file
+
+test unlink2 FAILED
+ (unlink a directory)
+ MFS_Lookup should fail on an unlinked file
+
+test empty FAILED
+ (unlink a non-empty directory)
+ MFS_Unlink should fail on non-empty dir
+
+test name PASSED
+ (name too long)
+
+test persist FAILED
+ (restart server after creating a file)
+ Corrupt data returned by read
+
+test bigdir FAILED
+ (create a directory with 126 files)
+ MFS_Lookup returned failure inum=0 name='0'
+
+test deep PASSED
+ (create many deeply nested directories)
+
+Passed 6 of 19 tests.
+Overall 6 of 19

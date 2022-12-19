@@ -43,7 +43,7 @@ int MFS_Lookup(int pinum, char *name) {
     message_t to_send, to_receive;
     to_send.mtype = 2;
     to_send.inum = pinum;
-    to_receive.inum = -98;
+    to_receive.inum = -1;
     strncpy(to_send.message, name, 28);
     rc = UDP_Write(sd, &addrSnd, (char *)&to_send, sizeof(message_t));
     if (rc < 0) {
@@ -51,7 +51,6 @@ int MFS_Lookup(int pinum, char *name) {
         exit(1);
     }
     UDP_Read(sd, &addrRcv, (char *)&to_receive, sizeof(message_t));
-    printf("came lookup %i\n", to_receive.inum);
     return to_receive.inum;
 }
 

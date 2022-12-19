@@ -83,7 +83,6 @@ int server_init(char* img_name){
 }
 
 int server_create(message_t m){
-	char* name = m.name;
 	message_t response;
 	int db_new = -1;
 	//if mfs_directory vars
@@ -118,14 +117,12 @@ int server_create(message_t m){
 	//datab_ptr = iregion_ptr[pinum].direct[0] - sb_pointer->dregion_ptr;
 
 	for(int i = 0; i < 4096/sizeof(dir_ent_t); i++) {
-		dir_ent_t* dirEntry;
-    dirEntry = pinum_db_addr + i;
-		if(dirEntry->inum == -1) {
+		if((pinum_db_addr + i)->inum == -1) {
 			response.inum = 0;
 			response.rc = 0;
-			dirEntry->inum = check_freeinode;
+			(pinum_db_addr + i)->inum = check_freeinode;
 			for(int z = 0; z != 28; z++){
-        dirEntry->name[z] = *(name+z);
+        (pinum_db_addr + i)->name[z] = m.name[z];
       }
 			set_bit((unsigned int *)ibitmap_ptr, check_freeinode);
 			f_inode->type = dt;
@@ -192,14 +189,12 @@ int server_create(message_t m){
 
 int server_lookup(int pinum, char* name, message_t m){
 	message_t response;
-	response.inum = -981;
 	inode_t* pinode = malloc(sizeof(inode_t));
 	//move ptr
 	pinode = (inode_t*)(iregion_ptr + pinum*sizeof(inode_t));
 	if(pinode->type!= MFS_DIRECTORY){
 		//failure
-		response.inum = -394;
-		//response.inum = -1;
+		response.inum = -1;
 		response.rc = -1;
 		fsync(fd);
 		UDP_Write(sd, &addr_send, (char*)&response, sizeof(message_t));
@@ -210,7 +205,6 @@ int server_lookup(int pinum, char* name, message_t m){
 		//if initialized
 		if(pinode->direct[i] != -1){
 			for(int j = 0; j < 128; j++){
-				response.inum = -394;
 				dir_ent_t* check_entry =  (dir_ent_t*)((char*)file_ptr+  (pinode->direct[i] * 4096) + j*sizeof(dir_ent_t));
 				//printf(" direntry : %p, entry inum : %d, name : %s\n", check_entry, check_entry->inum, check_entry->name);
 				if(strcmp(check_entry->name, name) == 0 && check_entry->inum != -1){
