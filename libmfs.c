@@ -23,45 +23,41 @@ int MFS_Init(char *hostname, int port) {
     printf("MFS Init2 %s %d\n", hostname, port);
     port_num = port_initialize();
     sd = UDP_Open(port_num);
-    //printf("sd is : %d", sd);
+    printf("yo");
     if (sd < 0){
 		return -1;
 	}
-    int rc = UDP_FillSockAddr(&addrSnd, hostname, port);
+    rc = UDP_FillSockAddr(&addrSnd, hostname, port);
     //tell server to open port?
-    message_t to_send;
+    message_t to_send, to_receive;
     to_send.mtype = 1;
     //filler for message
     to_send.message[0] = port;
     to_send.message[sizeof(port)] = '\0';
-    //int rc = UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
-    //
-    UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
-    rc = UDP_Read(sd, &addrRcv, (char *)&to_send, sizeof(message_t));
+    rc = UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
     if (rc < 0) {
         printf("client:: failed to send\n");
         return -1;
     }
-    return rc;
+    UDP_Read(sd, &addrRcv, (char *)&to_receive, sizeof(message_t));
+    return to_receive.rc;
 }
 
 int MFS_Lookup(int pinum, char *name) {
     // network communication to do the lookup to server
     // sending message in format: namepinum
     // buffer for name, pinum, and null terminator
-    message_t to_send;
+    message_t to_send, to_receive;
     to_send.mtype = 2;
     to_send.inum = pinum;
     strncpy(to_send.message, name, 28);
-    to_send.message[sizeof(name)] = pinum;
-    to_send.message[sizeof(name) + 4] = '\0';
     rc = UDP_Write(sd, &addrSnd, (char *)&to_send, sizeof(message_t));
     if (rc < 0) {
         printf("client:: failed to send\n");
         exit(1);
     }
-    rc = UDP_Read(sd, &addrRcv, (char *)&to_send, sizeof(message_t));
-    return rc;
+    UDP_Read(sd, &addrRcv, (char *)&to_receive, sizeof(message_t));
+    return to_receive.inum;
 }
 
 int MFS_Stat(int inum, MFS_Stat_t *m) {

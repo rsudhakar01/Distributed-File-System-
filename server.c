@@ -7,8 +7,7 @@
 #include "message.h"
 
 int sd, fd, port;
-struct sockaddr_in addr_receive;
-struct sockaddr_in addr_out;
+struct sockaddr_in addr_send;
 void *file_ptr;
 super_t* sb_pointer;
 super_t superblock;
@@ -42,20 +41,25 @@ void set_bit(unsigned int *bitmap, int position) {
    bitmap[index] |= 0x1 << offset;
 }
 
-int server_init(char* img_name){
+int server_init(char* img_name, message_t response){
 	fd = open(img_name, O_RDWR);
 	if (fd < 0){
+		response.rc = -1;
+		fsync(fd);
 		return -1;
 	}
 	struct stat sbuf;
 	int rc = fstat(fd, &sbuf);
 	if (rc < 0){
+		response.rc = -1;
+		fsync(fd);
 		return -1;
 	}
 	image_size = (int) sbuf.st_size;
 	file_ptr = mmap(NULL, image_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 	if (file_ptr == MAP_FAILED){
-		return -1;
+		response.rc = -1;
+		fsync(fd);
 	}
 
 	//set other pointers
@@ -66,6 +70,7 @@ int server_init(char* img_name){
 	dregion_ptr = (char*)file_ptr + sb_pointer->data_region_addr*4096;
 	//filling sb_pointer
 	read(fd, &superblock, sizeof(super_t));
+	response.rc = 0;
 	fsync(fd);
 	return 0;
 }
@@ -163,6 +168,8 @@ int server_lookup(int pinum, char* name, message_t m, message_t response){
 	pinode = (inode_t*)(iregion_ptr + pinum*sizeof(inode_t))	;
 	if(pinode->type!= MFS_DIRECTORY){
 		//failure
+		response.inum = -1;
+		response.rc = -1;
 		fsync(fd);
 		return -1;
   }
@@ -175,6 +182,7 @@ int server_lookup(int pinum, char* name, message_t m, message_t response){
 				//printf(" direntry : %p, entry inum : %d, name : %s\n", check_entry, check_entry->inum, check_entry->name);
 				if(strcmp(check_entry->name, name) == 0 && check_entry->inum != -1){
 					response.inum = check_entry->inum;
+					response.rc = 0;
 					fsync(fd);
 					return response.inum;
 					}
@@ -189,7 +197,7 @@ int server_lookup(int pinum, char* name, message_t m, message_t response){
 int server_shutdown(message_t* m){
 	fsync(fd);
 	close(fd);
-	UDP_Write(sd, &addr_receive, (char *)&m, sizeof(message_t));
+	UDP_Write(sd, &addr_send, (char *)&m, sizeof(message_t));
 	UDP_Close(port);
 	exit(0);
 	return 0;
@@ -204,7 +212,7 @@ int main(int argc, char *argv[]) {
 	port = atoi(argv[1]);
 	
 	char img_path[1024];
-	strcpy(img_path, argv[2]);
+	strncpy(img_path, argv[2], 28);
 	//fd = open(img_path, O_RDWR);
 	sd = UDP_Open(port);
 	if (sd < 0){
@@ -216,23 +224,22 @@ int main(int argc, char *argv[]) {
 		message_t m;
 		message_t response;
 		printf("server:: waiting...\n");
-		int rc = UDP_Read(sd, &addr_receive, (char *) &m, sizeof(message_t));
+		int rc = UDP_Read(sd, &addr_send, (char *) &m, sizeof(message_t));
 		printf("server:: read message [size:%d contents:(%d)]\n", rc, m.mtype);
 		//printf("rc is : %d\n", rc);
 		if (rc > 0) {
 			to_do = m.mtype;
 			switch(to_do){
 				case 1:
-					int si = server_init(img_path);
-					response.rc = si;
-					UDP_Write(sd, &addr_receive, (char*)&response, sizeof(message_t));
+					server_init(img_path, response);
+					UDP_Write(sd, &addr_send, (char*)&response, sizeof(message_t));
 					break;
 				case 2: 
 						int pinum_temp = m.inum;
 						char filename[28];
 						strcpy(filename, m.name);
 						response.rc = server_lookup(pinum_temp, filename, m, response);
-						UDP_Write(sd, &addr_receive, (char*)&response, sizeof(message_t));
+						UDP_Write(sd, &addr_send, (char*)&response, sizeof(message_t));
 						break;
 				case 3: //stat
 				case 4: //write
