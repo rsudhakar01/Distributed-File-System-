@@ -9,13 +9,6 @@ build project using make
 Trying to build project using make
 make
 gcc server.c udp.c -o server
-server.c: In function ‘server_create’:
-server.c:127:59: warning: assignment to ‘unsigned int’ from ‘char *’ makes integer from pointer without a cast [-Wint-conversion]
-  127 |                         pinode[check_freeinode].direct[i] = new_datab_ptr + dregion_ptr;
-      |                                                           ^
-server.c:156:51: warning: assignment to ‘unsigned int’ from ‘char *’ makes integer from pointer without a cast [-Wint-conversion]
-  156 |                 pinode[check_freeinode].direct[0] = new_datab_ptr + dregion_ptr;
-      |                                                   ^
 gcc -c -Wall -fpic libmfs.c udp.c
 gcc -shared -o libmfs.so libmfs.o udp.o
 gcc client.c udp.c -o client -L. -lmfs
@@ -39,13 +32,14 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8005
-/tmp/tmp8oTI8v/p/server 8005 /home/uday/CS537/p4/Distributed-File-System-/test.img
+Starting server on port 8364
+/tmp/tmpsPcXfi/p/server 8364 /home/uday/CS537/p4/Distributed-File-System-/test.img
+herebass
 server:: waiting...
 server:: read message [size:1068 contents:(1)]
 server:: waiting...
 server:: read message [size:1068 contents:(8)]
-MFS Init2 localhost 8005
+MFS Init2 localhost 8364
 
 
 test shutdown PASSED
@@ -65,14 +59,17 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6257
-/tmp/tmp8oTI8v/p/server 6257 /home/uday/CS537/p4/Distributed-File-System-/test.img
+Starting server on port 9380
+/tmp/tmpsPcXfi/p/server 9380 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 9380
+came crelookup 0
+came lookup -394
+Failure: MFS_Lookup returned failure inum=0 name='test'
 
 
 test creat FAILED
  (creat a file and check with lookup)
- Timelimit (10.0s) exceeded
+ MFS_Lookup returned failure inum=0 name='test'
 
 Skipped 16 tests.
 To keep testing after failing a test, use flag '-c' or '--continue'
-MFS Init2 localhost 6257
