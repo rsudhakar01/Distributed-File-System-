@@ -86,7 +86,6 @@ int MFS_Creat(int pinum, int type, char *name) {
     }
     
     UDP_Read(sd, &addrRcv, (char*)&to_receive, sizeof(message_t));
-    printf("came crelookup %i\n", to_receive.rc);
     return to_receive.rc;
 }
 

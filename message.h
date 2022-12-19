@@ -18,6 +18,8 @@ typedef struct {
     int inum;  // inode num
     int dir_type; // directory or file
     char name[28]; 
+    int offset;
+    int bytes;
 } message_t;
 
 #endif // __message_h__

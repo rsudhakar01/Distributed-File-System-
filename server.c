@@ -15,7 +15,6 @@ char* ibitmap_ptr;
 char* dbitmap_ptr;
 char* iregion_ptr;
 char* dregion_ptr;
-char* start_point;
 int image_size;
 struct sockaddr_in addr_send;
 
@@ -42,66 +41,63 @@ void set_bit(unsigned int *bitmap, int position) {
    bitmap[index] |= 0x1 << offset;
 }
 
-int server_init(char* img_name){
-	message_t response;
+int server_init(char* img_name, message_t m){
 	fd = open(img_name, O_RDWR);
 	if (fd < 0){
-		response.rc = -1;
+		m.rc = -1;
 		fsync(fd);
-		UDP_Write(sd, &addr_send, (char*)&response, sizeof(message_t));
+		UDP_Write(sd, &addr_send, (char*)&m, sizeof(message_t));
 		return -1;
 	}
 	read(fd, &superblock, sizeof(super_t));
 	struct stat sbuf;
 	int rc = fstat(fd, &sbuf);
 	if (rc < 0){
-		response.rc = -1;
+		m.rc = -1;
 		fsync(fd);
-		UDP_Write(sd, &addr_send, (char*)&response, sizeof(message_t));
+		UDP_Write(sd, &addr_send, (char*)&m, sizeof(message_t));
 		return -1;
 	}
 	image_size = (int) sbuf.st_size;
 	file_ptr = mmap(NULL, image_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 /* 	if (file_ptr == MAP_FAILED){
-		response.rc = -1;
+		m.rc = -1;
 		fsync(fd);
 		return -1;
 	} */
 
 	//set other pointers
 	sb_pointer = (super_t*)file_ptr;
-	start_point = (char*)file_ptr;
 	ibitmap_ptr = (char*)sb_pointer + sb_pointer->inode_bitmap_addr*4096;
 	dbitmap_ptr = (char*)sb_pointer + sb_pointer->data_bitmap_addr*4096;
 	iregion_ptr = (char*)sb_pointer + sb_pointer->inode_region_addr*4096;
 	dregion_ptr = (char*)sb_pointer + sb_pointer->data_region_addr*4096;
 	//filling sb_pointer
-	response.rc = 0;
+	m.rc = 0;
 	fsync(fd);
-	UDP_Write(sd, &addr_send, (char*)&response, sizeof(message_t));
+	UDP_Write(sd, &addr_send, (char*)&m, sizeof(message_t));
 	return 0;
 }
 
 int server_create(message_t m){
-	message_t response;
 	int db_new = -1;
 	//if mfs_directory vars
 	dir_ent_t* total_entries;
 
 	int pinum = m.inum;
 	int dt = m.dir_type;
-	response.rc = -1;
-	response.inum = -1;
+	m.rc = -1;
+	m.inum = -1;
 	inode_t* pinode = malloc(sizeof(inode_t));
 	pinode = (inode_t*)(iregion_ptr + pinum*sizeof(inode_t));
 	if(pinode->type!= MFS_DIRECTORY){
 			fsync(fd);
-			UDP_Write(sd, &addr_send, (char*)&response, sizeof(message_t));
+			UDP_Write(sd, &addr_send, (char*)&m, sizeof(message_t));
 			return -1;
     }
 	//find empty inode
 	int check_freeinode = 0;
-	for(int i = 0; i < superblock.num_inodes; i++) {
+	for(int i = 0; i < sb_pointer->num_inodes; i++) {
 		check_freeinode = get_bit((unsigned int *)ibitmap_ptr, i);
 		if(check_freeinode==0) {
 			check_freeinode = i;
@@ -118,8 +114,8 @@ int server_create(message_t m){
 
 	for(int i = 0; i < 4096/sizeof(dir_ent_t); i++) {
 		if((pinum_db_addr + i)->inum == -1) {
-			response.inum = 0;
-			response.rc = 0;
+			m.inum = 0;
+			m.rc = 0;
 			(pinum_db_addr + i)->inum = check_freeinode;
 			for(int z = 0; z != 28; z++){
         (pinum_db_addr + i)->name[z] = m.name[z];
@@ -181,23 +177,22 @@ int server_create(message_t m){
 			set_bit((unsigned int *)dbitmap_ptr, db_new);
 		}
 	}
-	response.rc = 0;
+	m.rc = 0;
 	fsync(fd);
-	UDP_Write(sd, &addr_send, (char*)&response, sizeof(message_t));
+	UDP_Write(sd, &addr_send, (char*)&m, sizeof(message_t));
 	return 0;
 }
 
 int server_lookup(int pinum, char* name, message_t m){
-	message_t response;
 	inode_t* pinode = malloc(sizeof(inode_t));
 	//move ptr
 	pinode = (inode_t*)(iregion_ptr + pinum*sizeof(inode_t));
 	if(pinode->type!= MFS_DIRECTORY){
 		//failure
-		response.inum = -1;
-		response.rc = -1;
+		m.inum = -1;
+		m.rc = -1;
 		fsync(fd);
-		UDP_Write(sd, &addr_send, (char*)&response, sizeof(message_t));
+		UDP_Write(sd, &addr_send, (char*)&m, sizeof(message_t));
 		return -1;
   }
 	// loop and find
@@ -208,27 +203,26 @@ int server_lookup(int pinum, char* name, message_t m){
 				dir_ent_t* check_entry =  (dir_ent_t*)((char*)file_ptr+  (pinode->direct[i] * 4096) + j*sizeof(dir_ent_t));
 				//printf(" direntry : %p, entry inum : %d, name : %s\n", check_entry, check_entry->inum, check_entry->name);
 				if(strcmp(check_entry->name, name) == 0 && check_entry->inum != -1){
-					response.inum = check_entry->inum;
-					response.rc = 0;
+					m.inum = check_entry->inum;
+					m.rc = 0;
 					fsync(fd);
-					UDP_Write(sd, &addr_send, (char*)&response, sizeof(message_t));
-					return response.inum;
+					UDP_Write(sd, &addr_send, (char*)&m, sizeof(message_t));
+					return m.inum;
 					}
 				}
 			}
     }
 	fsync(fd);
-	UDP_Write(sd, &addr_send, (char*)&response, sizeof(message_t));
+	UDP_Write(sd, &addr_send, (char*)&m, sizeof(message_t));
 	return -1;
 }
 
 
-int server_shutdown(){
-	message_t response;
-	response.rc = 0;
+int server_shutdown(message_t m){
+	m.rc = 0;
 	fsync(fd);
 	close(fd);
-	UDP_Write(sd, &addr_send, (char *)&response, sizeof(message_t));
+	UDP_Write(sd, &addr_send, (char *)&m, sizeof(message_t));
 	UDP_Close(port);
 	exit(0);
 	return 0;
@@ -253,7 +247,6 @@ int main(int argc, char *argv[]) {
 	while (1) {
 		int to_do;
 		message_t m;
-		message_t* response = malloc(sizeof(message_t));
 		printf("server:: waiting...\n");
 		int rc = UDP_Read(sd, &addr_send, (char *) &m, sizeof(message_t));
 		printf("server:: read message [size:%d contents:(%d)]\n", rc, m.mtype);
@@ -262,23 +255,26 @@ int main(int argc, char *argv[]) {
 			to_do = m.mtype;
 			switch(to_do){
 				case 1:{
-					server_init(img_path);
+					server_init(img_path, m);
 					break;
 				}
 				case 2:{
-						server_lookup(m.inum, m.name, m);
-						break;
+					server_lookup(m.inum, m.name, m);
+					break;
 				}
 				case 3: //stat
 				case 4: //write
-				case 5: //read
+				case 5: {
+					//server_read(m, m);
+					break;
+				}
 				case 6: {
 					server_create(m);
 					break;
 				}
 				case 7:	break;//unlink			
 				case 8:
-					server_shutdown();
+					server_shutdown(m);
 					break;
 				default:
 					break;

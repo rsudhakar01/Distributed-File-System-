@@ -32,14 +32,14 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6941
-/tmp/tmpJAvcN7/p/server 6941 /home/uday/CS537/p4/Distributed-File-System-/test.img
+Starting server on port 7174
+/tmp/tmpEcGEVf/p/server 7174 /home/uday/CS537/p4/Distributed-File-System-/test.img
 herebass
 server:: waiting...
-server:: read message [size:1068 contents:(1)]
+server:: read message [size:1076 contents:(1)]
 server:: waiting...
-server:: read message [size:1068 contents:(8)]
-MFS Init2 localhost 6941
+server:: read message [size:1076 contents:(8)]
+MFS Init2 localhost 7174
 
 
 test shutdown PASSED
@@ -59,19 +59,18 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9126
-/tmp/tmpJAvcN7/p/server 9126 /home/uday/CS537/p4/Distributed-File-System-/test.img
+Starting server on port 9025
+/tmp/tmpEcGEVf/p/server 9025 /home/uday/CS537/p4/Distributed-File-System-/test.img
 herebass
 server:: waiting...
-server:: read message [size:1068 contents:(1)]
+server:: read message [size:1076 contents:(1)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(2)]
+server:: read message [size:1076 contents:(2)]
 server:: waiting...
-server:: read message [size:1068 contents:(8)]
-MFS Init2 localhost 9126
-came crelookup 0
+server:: read message [size:1076 contents:(8)]
+MFS Init2 localhost 9025
 
 
 test creat PASSED
@@ -91,10 +90,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7816
-/tmp/tmpJAvcN7/p/server 7816 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 7816
-came crelookup 0
+Starting server on port 9359
+/tmp/tmpEcGEVf/p/server 9359 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 9359
 ('START BLOCK 1\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00END BLOCK 1')
 ('\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
 Failure: Corrupt data returned by read
@@ -118,10 +116,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8684
-/tmp/tmpJAvcN7/p/server 8684 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 8684
-came crelookup 0
+Starting server on port 6028
+/tmp/tmpEcGEVf/p/server 6028 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 6028
 Failure: Stat gave wrong type
 
 
@@ -143,10 +140,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5294
-/tmp/tmpJAvcN7/p/server 5294 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 5294
-came crelookup 0
+Starting server on port 9148
+/tmp/tmpEcGEVf/p/server 9148 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 9148
 Failure: Corrupt data returned by read
 
 
@@ -168,10 +164,9 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5927
-/tmp/tmpJAvcN7/p/server 5927 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 5927
-came crelookup 0
+Starting server on port 5283
+/tmp/tmpEcGEVf/p/server 5283 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 5283
 Failure: Corrupt data returned by read
 
 
@@ -193,10 +188,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7376
-/tmp/tmpJAvcN7/p/server 7376 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 7376
-came crelookup 0
+Starting server on port 8069
+/tmp/tmpEcGEVf/p/server 8069 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 8069
 31
 write more than need
 Failure: MFS_Write should fail on inalid block number
@@ -220,15 +214,22 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7721
-/tmp/tmpJAvcN7/p/server 7721 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 7721
-Failure: '.' in root should point to root inode
+Starting server on port 5506
+/tmp/tmpEcGEVf/p/server 5506 /home/uday/CS537/p4/Distributed-File-System-/test.img
+herebass
+server:: waiting...
+server:: read message [size:1076 contents:(1)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(8)]
+MFS Init2 localhost 5506
 
 
-test dir1 FAILED
+test dir1 PASSED
  (check root for dot entries)
- '.' in root should point to root inode
 
 ('starting', 'dir2')
 
@@ -244,23 +245,22 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9062
-/tmp/tmpJAvcN7/p/server 9062 /home/uday/CS537/p4/Distributed-File-System-/test.img
+Starting server on port 7818
+/tmp/tmpEcGEVf/p/server 7818 /home/uday/CS537/p4/Distributed-File-System-/test.img
 herebass
 server:: waiting...
-server:: read message [size:1068 contents:(1)]
+server:: read message [size:1076 contents:(1)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(2)]
+server:: read message [size:1076 contents:(2)]
 server:: waiting...
-server:: read message [size:1068 contents:(2)]
+server:: read message [size:1076 contents:(2)]
 server:: waiting...
-server:: read message [size:1068 contents:(2)]
+server:: read message [size:1076 contents:(2)]
 server:: waiting...
-server:: read message [size:1068 contents:(8)]
-MFS Init2 localhost 9062
-came crelookup 0
+server:: read message [size:1076 contents:(8)]
+MFS Init2 localhost 7818
 
 
 test dir2 PASSED
@@ -280,11 +280,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6076
-/tmp/tmpJAvcN7/p/server 6076 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 6076
-came crelookup 0
-came crelookup 0
+Starting server on port 6849
+/tmp/tmpEcGEVf/p/server 6849 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 6849
 Failure: MFS_Creat should fail if pinum is not a directory
 
 
@@ -306,10 +304,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7743
-/tmp/tmpJAvcN7/p/server 7743 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 7743
-came crelookup 0
+Starting server on port 6322
+/tmp/tmpEcGEVf/p/server 6322 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 6322
 Failure: MFS_Lookup should fail if pinum is not a directory
 
 
@@ -331,10 +328,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7156
-/tmp/tmpJAvcN7/p/server 7156 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 7156
-came crelookup 0
+Starting server on port 6914
+/tmp/tmpEcGEVf/p/server 6914 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 6914
 Failure: MFS_Lookup should fail on an unlinked file
 
 
@@ -356,10 +352,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9794
-/tmp/tmpJAvcN7/p/server 9794 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 9794
-came crelookup 0
+Starting server on port 9903
+/tmp/tmpEcGEVf/p/server 9903 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 9903
 Failure: MFS_Lookup should fail on an unlinked file
 
 
@@ -381,11 +376,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7799
-/tmp/tmpJAvcN7/p/server 7799 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 7799
-came crelookup 0
-came crelookup 0
+Starting server on port 8613
+/tmp/tmpEcGEVf/p/server 8613 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 8613
 Failure: MFS_Unlink should fail on non-empty dir
 
 
@@ -407,14 +400,14 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5156
-/tmp/tmpJAvcN7/p/server 5156 /home/uday/CS537/p4/Distributed-File-System-/test.img
+Starting server on port 7764
+/tmp/tmpEcGEVf/p/server 7764 /home/uday/CS537/p4/Distributed-File-System-/test.img
 herebass
 server:: waiting...
-server:: read message [size:1068 contents:(1)]
+server:: read message [size:1076 contents:(1)]
 server:: waiting...
-server:: read message [size:1068 contents:(8)]
-MFS Init2 localhost 5156
+server:: read message [size:1076 contents:(8)]
+MFS Init2 localhost 7764
 
 
 test name PASSED
@@ -434,10 +427,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7108
-/tmp/tmpJAvcN7/p/server 7108 /home/uday/CS537/p4/Distributed-File-System-/test.img
-MFS Init2 localhost 7108
-came crelookup 0
+Starting server on port 9122
+/tmp/tmpEcGEVf/p/server 9122 /home/uday/CS537/p4/Distributed-File-System-/test.img
+MFS Init2 localhost 9122
 Failure: Corrupt data returned by read
 
 
@@ -459,387 +451,526 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5427
-/tmp/tmpJAvcN7/p/server 5427 /home/uday/CS537/p4/Distributed-File-System-/test.img
+Starting server on port 8433
+/tmp/tmpEcGEVf/p/server 8433 /home/uday/CS537/p4/Distributed-File-System-/test.img
 herebass
 server:: waiting...
-server:: read message [size:1068 contents:(1)]
+server:: read message [size:1076 contents:(1)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(2)]
+server:: read message [size:1076 contents:(2)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
-server:: MFS Init2 localhost 5427
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-Failure: MFS_Lookup returned failure inum=0 name='0'
+server:: read message [size:1076 contents:(6)]
+server:: waiting...
+server:: read message [size:1076 contents:(6)]
+server:: waiting...
+server:: read message [size:1076 contents:(6)]
+server:: waiting...
+server:: read message [size:1076 contents:(6)]
+server:: waiting...
+server:: read message [size:1076 contents:(6)]
+server:: waiting...
+server:: read message [size:1076 contents:(6)]
+server:: waiting...
+server:: read message [size:1076 contents:(6)]
+server:: waiting...
+server:: read message [size:1076 contents:(6)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(2)]
+server:: waiting...
+server:: read message [size:1076 contents:(8)]
+MFS Init2 localhost 8433
 
 
-test bigdir FAILED
+test bigdir PASSED
  (create a directory with 126 files)
- MFS_Lookup returned failure inum=0 name='0'
 
 ('starting', 'deep')
 
@@ -855,49 +986,44 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5923
-/tmp/tmpJAvcN7/p/server 5923 /home/uday/CS537/p4/Distributed-File-System-/test.img
+Starting server on port 8698
+/tmp/tmpEcGEVf/p/server 8698 /home/uday/CS537/p4/Distributed-File-System-/test.img
 herebass
 server:: waiting...
-server:: read message [size:1068 contents:(1)]
+server:: read message [size:1076 contents:(1)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(2)]
+server:: read message [size:1076 contents:(2)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(2)]
+server:: read message [size:1076 contents:(2)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(2)]
+server:: read message [size:1076 contents:(2)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(2)]
+server:: read message [size:1076 contents:(2)]
 server:: waiting...
-server:: read message [size:1068 contents:(6)]
+server:: read message [size:1076 contents:(6)]
 server:: waiting...
-server:: read message [size:1068 contents:(2)]
+server:: read message [size:1076 contents:(2)]
 server:: waiting...
-server:: read message [size:1068 contents:(2)]
+server:: read message [size:1076 contents:(2)]
 server:: waiting...
-server:: read message [size:1068 contents:(2)]
+server:: read message [size:1076 contents:(2)]
 server:: waiting...
-server:: read message [size:1068 contents:(2)]
+server:: read message [size:1076 contents:(2)]
 server:: waiting...
-server:: read message [size:1068 contents:(2)]
+server:: read message [size:1076 contents:(2)]
 server:: waiting...
-server:: read message [size:1068 contents:(2)]
+server:: read message [size:1076 contents:(2)]
 server:: waiting...
-server:: read message [size:1068 contents:(8)]
-MFS Init2 localhost 5923
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
-came crelookup 0
+server:: read message [size:1076 contents:(8)]
+MFS Init2 localhost 8698
 
 
 test deep PASSED
@@ -934,9 +1060,8 @@ test maxfile2 FAILED
  (write more blocks than possible)
  MFS_Write should fail on inalid block number
 
-test dir1 FAILED
+test dir1 PASSED
  (check root for dot entries)
- '.' in root should point to root inode
 
 test dir2 PASSED
  (create a new directory and check it)
@@ -968,12 +1093,11 @@ test persist FAILED
  (restart server after creating a file)
  Corrupt data returned by read
 
-test bigdir FAILED
+test bigdir PASSED
  (create a directory with 126 files)
- MFS_Lookup returned failure inum=0 name='0'
 
 test deep PASSED
  (create many deeply nested directories)
 
-Passed 6 of 19 tests.
-Overall 6 of 19
+Passed 8 of 19 tests.
+Overall 8 of 19
