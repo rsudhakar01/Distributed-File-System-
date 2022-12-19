@@ -36,16 +36,13 @@ int MFS_Init(char *hostname, int port) {
     to_send.message[sizeof(port)] = '\0';
     //int rc = UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
     //
-    rc = UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
-    
+    UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
+    int rc = UDP_Read(sd, &addrRcv, (char *)&to_send, sizeof(message_t));
     if (rc < 0) {
-        
         printf("client:: failed to send\n");
-        exit(1);
+        return -1;
     }
-
-    //UDP_Read(sd, &addrRcv, (char *)&to_send, sizeof(message_t));
-    return 0;
+    return rc;
 }
 
 int MFS_Lookup(int pinum, char *name) {
@@ -54,7 +51,8 @@ int MFS_Lookup(int pinum, char *name) {
     // buffer for name, pinum, and null terminator
     message_t to_send;
     to_send.mtype = 2;
-    strcpy(to_send.message, name);
+    to_send.inum = pinum;
+    strcnpy(to_send.message, name, 28);
     to_send.message[sizeof(name)] = pinum;
     to_send.message[sizeof(name) + 4] = '\0';
     int rc = UDP_Write(sd, &addrSnd, (char *)&to_send, sizeof(message_t));
@@ -62,12 +60,8 @@ int MFS_Lookup(int pinum, char *name) {
         printf("client:: failed to send\n");
         exit(1);
     }
-    //implement timeout
-    UDP_Read(sd, &addrRcv, (char *)&to_send, sizeof(message_t));
-    if (to_send.rc < 0){
-        return rc;
-    }
-    return atoi(to_send.message);
+    int rc = UDP_Read(sd, &addrRcv, (char *)&to_send, sizeof(message_t));
+    return rc;
 }
 
 int MFS_Stat(int inum, MFS_Stat_t *m) {
@@ -93,7 +87,7 @@ int MFS_Creat(int pinum, int type, char *name) {
     to_send.mtype = 6;
     to_send.inum = pinum;
     to_send.dir_type = type;
-    strcpy(to_send.name, name);
+    strncpy(to_send.name, name, 28);
     
     rc = UDP_Write(sd, &addrSnd,(char *) &to_send, sizeof(message_t));
     if (rc < 0) {
@@ -106,7 +100,7 @@ int MFS_Creat(int pinum, int type, char *name) {
         printf("client: create failed; libmfs.c\n");
         return -1;
     }
-    return 0;
+    return rc;
 }
 
 int MFS_Unlink(int pinum, char *name) {

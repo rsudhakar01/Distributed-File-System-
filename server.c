@@ -156,14 +156,15 @@ int server_create(message_t m){
 }
 
 int server_lookup(int pinum, char* name, message_t m){
+	reply.inum = -1;
 	inode_t* pinode = malloc(sizeof(inode_t));
 	//move ptr
 	pinode = (inode_t*)(iregion_ptr + pinum*sizeof(inode_t))	;
 	if(pinode->type!= MFS_DIRECTORY){
 		//failure
+		fsync(fd);
 		return -1;
   }
-
 	// loop and find
 	for(int i = 0; i < DIRECT_PTRS; i++){
 		//if initialized
@@ -171,9 +172,10 @@ int server_lookup(int pinum, char* name, message_t m){
 			for(int j = 0; j < 128; j++){
 				dir_ent_t* check_entry =  (dir_ent_t*)(file_ptr +  (pinode->direct[i] * 4096) + j*sizeof(dir_ent_t));
 				//printf(" direntry : %p, entry inum : %d, name : %s\n", check_entry, check_entry->inum, check_entry->name);
-				if(strcmp(check_entry->name, name) == 0){
-					m.inum = check_entry->inum;
-					break;
+				if(strcmp(check_entry->name, name) == 0 && entryAddr->inum != -1){
+					response.inum = check_entry->inum;
+					fsync(fd);
+					return resposne.inum
 					}
 				}
 			}
@@ -221,15 +223,15 @@ int main(int argc, char *argv[]) {
 			switch(to_do){
 				case 1:
 					int si = server_init(img_path);
-					m.rc = si;
+					response.rc = si;
 					UDP_Write(sd, &addr_receive, (char*)&response, sizeof(message_t));
 					break;
 				case 2: 
 						int pinum_temp = m.inum;
 						char filename[28];
 						strcpy(filename, m.name);
-						m.rc = server_lookup(pinum_temp, filename);
-						UDP_Write(sd, &addr_receive, (char*)&m, sizeof(message_t));
+						response.rc = server_lookup(pinum_temp, filename);
+						UDP_Write(sd, &addr_receive, (char*)&response, sizeof(message_t));
 				case 3: //stat
 				case 4: //write
 				case 5: //read
