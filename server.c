@@ -40,6 +40,12 @@ void set_bit(unsigned int *bitmap, int position) {
    int offset = 31 - (position % 32);
    bitmap[index] |= 0x1 << offset;
 }
+//from set_bit (Kai)
+void zero_bit(unsigned int *bitmap, int position){
+   int index = position / 32;
+   int offset = 31 - (position % 32);
+   bitmap[index] &= 0x1 << offset;
+}
 
 int server_init(char* file_ptr_name, message_t m){
 	fd = open(file_ptr_name, O_RDWR);
@@ -217,6 +223,76 @@ int server_lookup(int pinum, char* name, message_t m){
 	return -1;
 }
 
+int server_unlink(int pinum, char* name){
+	if(pinum < 0){
+        return -1;
+    }
+    printf("came into unlink here\n");
+	int entries;
+	message_t to_send; 
+	inode_t* int_inode;
+	inode_t* pinode = malloc(sizeof(inode_t));
+	//move ptr
+	pinode = (inode_t*)(iregion_ptr + pinum*sizeof(inode_t));
+	if(pinode->type != MFS_DIRECTORY){
+		to_send.inum = -1;
+		to_send.rc = -1;
+		fsync(fd);
+		UDP_Write(sd, &addr_send, (char*)&to_send, sizeof(message_t));
+		return -1;
+	}
+	for(int i = 0; i < pinode->size/sizeof(dir_ent_t); i++){
+		//dir_ent_t* dir_ptr = (dir_ent_t*)(char*)file_ptr + (pinode->direct[i*sizeof(dir_ent_t)/4096])*4096 + (i * sizeof(dir_ent_t)/4096) % 4096;
+		dir_ent_t* dir_ptr = (dir_ent_t*)(char*)file_ptr + (pinode->direct[i])*4096;
+		if(strcmp(dir_ptr->name,name) == 0){
+			if(dir_ptr->inum != -1){
+				int_inode = malloc(sizeof(inode_t));
+				//move ptr
+				int_inode = (inode_t*)(iregion_ptr + dir_ptr->inum*sizeof(inode_t));
+				//entries = int_inode->size/sizeof(dir_ent_t);
+				if(int_inode->type == MFS_DIRECTORY){
+					if(int_inode->size > 2*sizeof(dir_ent_t)){
+						UDP_Write(sd, &addr_send, (char*)&to_send, sizeof(message_t));
+                    	return -1;
+					}
+					//for(int j = 2; j < int_inode->size/sizeof(dir_ent_t); j++){
+					//	//dir_ent_t* dir_entry = (dir_ent_t*)(char*)file_ptr + (int_inode->direct[j*sizeof(dir_ent_t)/4096])*4096 + (j * sizeof(dir_ent_t)/4096) % 4096;
+					//	dir_ent_t* dir_entry = (dir_ent_t*)(char*)file_ptr + (int_inode->direct[j]*4096);
+					//	if(dir_entry->inum != -1){
+					//		return -1;
+					//	}
+					//}
+					dir_ent_t* dir_entry = (dir_ent_t*)(file_ptr + (int_inode->direct[i]*4096));
+					dir_entry->inum = -1;
+                	(dir_entry+1)->inum = -1;
+					zero_bit(ibitmap_ptr, dir_ptr->inum);
+					int pos = int_inode->direct[0] - sb_pointer->data_region_addr;;
+					zero_bit(dbitmap_ptr, pos);
+				}
+				else{
+					for(int i = 0; i < 30; i++){
+                	int int_dbnum = int_inode->direct[i] - sb_pointer->data_region_addr;
+                	zero_bit((unsigned int*) dbitmap_ptr, int_dbnum);
+                	}
+                	zero_bit((unsigned int *)ibitmap_ptr, dir_ptr->inum);
+                	dir_ptr->inum = -1;
+                	to_send.inum = 0;
+                	UDP_Write(sd, &addr_send, (char*)&to_send, sizeof(message_t));
+                	return 0;
+				}
+				//dir_ptr->inum = -1;
+			}
+			//int pos = 0;
+			//for(int k = 0; k < int_inode->size/4096; k++) {
+        	//       pos = int_inode->direct[k] - sb_pointer->data_region_addr;
+			//	   zero_bit(dbitmap_ptr, pos);
+        	//}
+    		//zero_bit(ibitmap_ptr, dir_ptr->inum);
+		}
+		
+	}
+	return 0;
+}
 int server_read(message_t m){
 	m.rc = -1;
 	//checks
@@ -308,7 +384,9 @@ int main(int argc, char *argv[]) {
 					server_create(m);
 					break;
 				}
-				case 7:	break;//unlink			
+				case 7:	
+					server_unlink(m.inum, m.name);
+					break;//unlink			
 				case 8:
 					server_shutdown(m);
 					break;
