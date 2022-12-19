@@ -93,46 +93,46 @@ int server_create(message_t m){
 	//find data block
 	dir_ent_t*  pinum_db_addr = (dir_ent_t*)(file_ptr + (int)(pinode->direct[0])*4096);
 	// move ptr
-	int datab_ptr;
-	datab_ptr = iregion_ptr[pinum].direct[0] - sb_pointer->dregion_ptr;
+	//int datab_ptr;
+	//datab_ptr = iregion_ptr[pinum].direct[0] - sb_pointer->dregion_ptr;
 
-	for(int i = 0; i< 4096/sizeof(dir_ent_t); i++) {
-		if(pinum_db_addr[datab_ptr].entries[i].inum == -1) {
-			pinum_db_addr[datab_ptr].entries[i].inum = check_freeinode;
-			strcpy(pinum_db_addr[datab_ptr].entries[i].name, filename);
+	for(int i = 0; i < 4096/sizeof(dir_ent_t); i++) {
+		if((*(pinum_db_addr + i)).inum == -1) {
+			(pinum_db_addr + i)->inum = check_freeinode;
+			strcpy((pinum_db_addr + i)->name, filename);
 			set_bit((unsigned int *)ibitmap_ptr, check_freeinode);
-			iregion_ptr[pinum].size += sizeof(dir_ent_t);
+			pinode[pinum].size += sizeof(dir_ent_t);
 			break;
 		}
 	}
-	iregion_ptr[check_freeinode].type = dt;
+	pinode[check_freeinode].type = dt;
 
 	if(dt == MFS_REGULAR_FILE){
-		for(int i = 0; i<DIRECT_PTRS; i++) {
+		for(int i = 0; i < DIRECT_PTRS; i++) {
 			//find free data block
 			int new_datab_ptr = 0;
-			for(int i = 0; i<sb_pointer->num_inodes; i++) {
+			for(int i = 0; i < sb_pointer->num_inodes; i++) {
 				new_datab_ptr = get_bit((unsigned int *)dbitmap_ptr, i);
 				if(new_datab_ptr == 0) {
 					break;
 				}
 			}
-			iregion_ptr[check_freeinode].direct[i] = new_datab_ptr + sb_pointer->dregion_ptr;
+			pinode[check_freeinode].direct[i] = new_datab_ptr + dregion_ptr;
 			set_bit((unsigned int *)dbitmap_ptr, new_datab_ptr);
 		}
 	}
 	else{
 		// MFS_DIRECTORY
 		dir_ent_t nd_entry[128];
-		iregion_ptr[check_freeinode].size = 2 * sizeof(dir_ent_t);
+		pinode[check_freeinode].size = 2 * sizeof(dir_ent_t);
 
 		//setting root
 		strcpy(nd_entry[0].name, ".");
 		nd_entry[0].inum = check_freeinode;
 		strcpy(nd_entry[1].name, "..");
 		nd_entry[1].inum = pinum;
-		for(int i = 1; i<DIRECT_PTRS; i++) {
-			iregion_ptr[check_freeinode].direct[i] = -1;
+		for(int i = 1; i < DIRECT_PTRS; i++) {
+			pinode[check_freeinode].direct[i] = -1;
 		}
 		for(int i = 2; i<4096/sizeof(dir_ent_t); i++) {
 			nd_entry[i].inum = -1;
@@ -140,18 +140,19 @@ int server_create(message_t m){
 
 		//find free datablock
 		int new_datab_ptr = 0;
-		for(int i = 0; i<sb_pointer ->num_inodes; i++) {
+		for(int i = 0; i < sb_pointer->num_inodes; i++) {
 			new_datab_ptr = get_bit((unsigned int *)dbitmap_ptr, i);
 			if(new_datab_ptr == 0) {
 				break;
 			}
 		}
-		iregion_ptr[check_freeinode].direct[0] = new_datab_ptr + sb_pointer->dregion_ptr;
+		pinode[check_freeinode].direct[0] = new_datab_ptr + dregion_ptr;
 		set_bit((unsigned int *)dbitmap_ptr, new_datab_ptr);
 
-		memcpy(&pinum_db_addr[new_datab_ptr].entries, nd_entry, 4096);
+		memcpy((pinum_db_addr + new_datab_ptr*sizeof(new_datab_ptr)), nd_entry, 4096);
 	}
 
+	fsync(fd);
 	return 0;
 }
 
@@ -232,6 +233,7 @@ int main(int argc, char *argv[]) {
 						strcpy(filename, m.name);
 						response.rc = server_lookup(pinum_temp, filename);
 						UDP_Write(sd, &addr_receive, (char*)&response, sizeof(message_t));
+						break;
 				case 3: //stat
 				case 4: //write
 				case 5: //read
