@@ -75,7 +75,7 @@ int server_init(char* img_name, message_t response){
 	return 0;
 }
 
-int server_create(message_t m){
+int server_create(message_t m, message_t response){
 	int pinum = m.inum;
 	int dt = m.dir_type;
 	char filename[28];
@@ -83,6 +83,8 @@ int server_create(message_t m){
 	inode_t* pinode = malloc(sizeof(inode_t));
 	pinode = (inode_t*)(iregion_ptr + pinum*sizeof(inode_t));
 	if(pinode->type!= MFS_DIRECTORY){
+			response.rc = -1;
+			fsync(fd);
 			return -1;
     }
 	//find empty inode
@@ -156,7 +158,7 @@ int server_create(message_t m){
 
 		memcpy((pinum_db_addr + new_datab_ptr*sizeof(new_datab_ptr)), nd_entry, 4096);
 	}
-
+	response.rc = 0;
 	fsync(fd);
 	return 0;
 }
@@ -245,7 +247,8 @@ int main(int argc, char *argv[]) {
 				case 4: //write
 				case 5: //read
 				case 6: 
-					server_create(m);
+					server_create(m, response);
+					break;
 				case 7:	//unlink			
 				case 8:
 					server_shutdown(&m);
