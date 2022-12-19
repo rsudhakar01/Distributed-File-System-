@@ -156,8 +156,8 @@ int server_create(message_t m){
 	return 0;
 }
 
-int server_lookup(int pinum, char* name, message_t m){
-	reply.inum = -1;
+int server_lookup(int pinum, char* name, message_t m, message_t response){
+	response.inum = -1;
 	inode_t* pinode = malloc(sizeof(inode_t));
 	//move ptr
 	pinode = (inode_t*)(iregion_ptr + pinum*sizeof(inode_t))	;
@@ -173,10 +173,10 @@ int server_lookup(int pinum, char* name, message_t m){
 			for(int j = 0; j < 128; j++){
 				dir_ent_t* check_entry =  (dir_ent_t*)(file_ptr +  (pinode->direct[i] * 4096) + j*sizeof(dir_ent_t));
 				//printf(" direntry : %p, entry inum : %d, name : %s\n", check_entry, check_entry->inum, check_entry->name);
-				if(strcmp(check_entry->name, name) == 0 && entryAddr->inum != -1){
+				if(strcmp(check_entry->name, name) == 0 && check_entry->inum != -1){
 					response.inum = check_entry->inum;
 					fsync(fd);
-					return resposne.inum
+					return response.inum;
 					}
 				}
 			}
@@ -231,7 +231,7 @@ int main(int argc, char *argv[]) {
 						int pinum_temp = m.inum;
 						char filename[28];
 						strcpy(filename, m.name);
-						response.rc = server_lookup(pinum_temp, filename);
+						response.rc = server_lookup(pinum_temp, filename, m, response);
 						UDP_Write(sd, &addr_receive, (char*)&response, sizeof(message_t));
 						break;
 				case 3: //stat
